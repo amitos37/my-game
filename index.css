@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', sans-serif;
+  background-color: #0a0a0a;
+  
+  /* --- חסימת גלילה וזום --- */
+  overflow: hidden; /* מונע גלילה של כל העמוד */
+  touch-action: none; /* מונע מחוות דפדפן כמו צביטה לזום */
+  
+  /* --- מניעת בחירת טקסט (כמו באפליקציה) --- */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+/* מאפשר לחיצה על כפתורים ושדות קלט, אבל בלי זום */
+button, input, textarea {
+  touch-action: manipulation;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', sans-serif;
+  background-color: #0a0a0a;
+  
+  /* מניעת גלילה וזום */
+  overflow: hidden;
+  
+  /* זה הטריק לאנדרואיד: מאפשר גלילה וקליקים, אבל חוסם זום! */
+  touch-action: manipulation; 
+  
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  /* מונע את ה"קפיצה" כשורת הכתובת נעלמת */
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
