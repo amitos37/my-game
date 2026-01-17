@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 
 // ייבוא כל הדפים מהתיקייה pages
 import LoginPage from './pages/LoginPage';
@@ -33,6 +34,7 @@ function App() {
       </Routes>
     </Router>
   );
+
 }
 
 export default App;
