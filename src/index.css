@@ -1,0 +1,55 @@
+/* איפוס כללי ומניעת הבהובים במובייל */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* מונע גלילה של כל העמוד */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', sans-serif;
+  background-color: #000;
+  color: white;
+  
+  /* קיבוע המסך - קריטי למניעת תזוזות */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* חסימת מחוות דפדפן (כמו רענון במשיכה או זום) */
+  overscroll-behavior: none;
+  
+  /* מאפשר רק גלילה (pan), חוסם זום (pinch) */
+  touch-action: pan-x pan-y; 
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  /* שימוש ב-dvh מבטיח התאמה מושלמת לגובה המובייל האמיתי */
+  height: 100dvh; 
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* עיצוב פס גלילה לאזורים פנימיים שכן צריכים גלילה */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #111;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}

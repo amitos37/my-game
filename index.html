@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק שאלות עם קטגוריות</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* --- עיצוב המודאל (החלונית הקופצת) --- */
+        #categoryModal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        h2 { margin-top: 0; color: #333; }
+
+        .options-container {
+            text-align: right;
+            margin: 20px 0;
+            max-height: 50vh;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .checkbox-label:hover {
+            background-color: #f9f9f9;
+        }
+
+        .checkbox-label input {
+            margin-left: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: #4CAF50;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #ddd;
+            margin: 10px 0;
+        }
+
+        .start-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.1s;
+        }
+
+        .start-btn:hover { background-color: #45a049; transform: scale(1.02); }
+        .start-btn:active { transform: scale(0.98); }
+
+        /* --- עיצוב המשחק עצמו --- */
+        #gameArea {
+            display: none; /* מוסתר בהתחלה */
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #categoryBadge {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        #questionText {
+            font-size: 1.5em;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .next-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+        }
+
+        .next-btn:hover { background-color: #1e88e5; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="categoryModal">
+        <div class="modal-content">
+            <h2>בחר קטגוריות למשחק</h2>
+            <p style="font-size: 0.9em; color: #666;">סמן את הנושאים שתרצה שיופיעו במשחק</p>
+            
+            <div class="options-container">
+                <label class="checkbox-label" style="font-weight: bold;">
+                    <input type="checkbox" id="selectAll" checked>
+                    <span>סמן הכל</span>
+                </label>
+                
+                <div class="divider"></div>
+                
+                <div id="categoriesList"></div>
+            </div>
+
+            <button id="startGameBtn" class="start-btn">התחל לשחק!</button>
+        </div>
+    </div>
+
+    <div id="gameArea">
+        <div class="card">
+            <span id="categoryBadge">קטגוריה</span>
+            <div id="questionText">לחץ על הכפתור כדי להתחיל...</div>
+        </div>
+        <button class="next-btn" onclick="nextQuestion()">שאלה הבאה</button>
+        <p><small style="color: #888; cursor: pointer;" onclick="location.reload()">חזרה לבחירת קטגוריות</small></p>
+    </div>
+
+    <script>
+        // --- 1. מאגר השאלות (ערוך כאן את השאלות שלך) ---
+        const database = [
+            { text: "מה הדבר הכי מביך שקרה לך השבוע?", category: "אישי" },
+            { text: "אם היית חיה, איזו חיה היית ולמה?", category: "דמיון" },
+            { text: "תן מחמאה לאדם שיושב מימינך", category: "משימות" },
+            { text: "מה החלום הכי גדול שלך?", category: "עומק" },
+            { text: "ספר בדיחה, אם אף אחד לא צוחק - שתה שוט", category: "משימות" },
+            { text: "מה המאכל שאתה הכי שונא?", category: "אישי" },
+            { text: "אם היית זוכה בלוטו, מה הדבר הראשון שהיית קונה?", category: "דמיון" },
+            { text: "מה הפחד הכי גדול שלך?", category: "עומק" },
+            { text: "עשה 10 שכיבות סמיכה", category: "משימות" },
+            { text: "איזה כוח על היית רוצה שיהיה לך?", category: "דמיון" }
+        ];
+
+        let activeQuestions = [];
+
+        // --- 2. אתחול המודאל והקטגוריות בטעינה ---
+        window.onload = function() {
+            const categoriesListDiv = document.getElementById('categoriesList');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            
+            // חילוץ קטגוריות ייחודיות
+            const uniqueCategories = [...new Set(database.map(q => q.category))];
+            
+            // יצירת צ'קבוקס לכל קטגוריה
+            uniqueCategories.forEach(cat => {
+                const label = document.createElement('label');
+                label.className = 'checkbox-label';
+                label.innerHTML = `
+                    <input type="checkbox" class="cat-checkbox" value="${cat}" checked>
+                    <span>${cat}</span>
+                `;
+                categoriesListDiv.appendChild(label);
+            });
+
+            // לוגיקה ל"בחר הכל"
+            selectAllCheckbox.addEventListener('change', (e) => {
+                const checkboxes = document.querySelectorAll('.cat-checkbox');
+                checkboxes.forEach(cb => cb.checked = e.target.checked);
+            });
+
+            // האזנה לכפתור התחלה
+            document.getElementById('startGameBtn').addEventListener('click', startGame);
+        };
+
+        // --- 3. לוגיקת התחלת המשחק ---
+        function startGame() {
+            // איסוף הקטגוריות שנבחרו
+            const checkboxes = document.querySelectorAll('.cat-checkbox:checked');
+            const selectedCategories = Array.from(checkboxes).map(cb => cb.value);
+
+            if (selectedCategories.length === 0) {
+                alert("חובה לבחור לפחות קטגוריה אחת!");
+                return;
+            }
+
+            // סינון השאלות לפי הבחירה
+            activeQuestions = database.filter(q => selectedCategories.includes(q.category));
+
+            // הסתרת המודאל והצגת המשחק
+            document.getElementById('categoryModal').style.display = 'none';
+            document.getElementById('gameArea').style.display = 'block';
+
+            // טעינת שאלה ראשונה
+            nextQuestion();
+        }
+
+        // --- 4. לוגיקת המשחק (הצגת שאלה רנדומלית) ---
+        function nextQuestion() {
+            if (activeQuestions.length === 0) {
+                alert("נגמרו השאלות בקטגוריות שנבחרו!");
+                location.reload(); // רענון הדף להתחלה מחדש
+                return;
+            }
+
+            // בחירת שאלה רנדומלית מתוך המאגר המסונן
+            const randomIndex = Math.floor(Math.random() * activeQuestions.length);
+            const question = activeQuestions[randomIndex];
+
+            // עדכון המסך
+            document.getElementById('questionText').innerText = question.text;
+            document.getElementById('categoryBadge').innerText = question.category;
+
+            // אנימציה קטנה להחלפה
+            const card = document.querySelector('.card');
+            card.style.animation = 'none';
+            card.offsetHeight; /* trigger reflow */
+            card.style.animation = 'fadeIn 0.3s ease-in-out';
+        }
+    </script>
+</body>
+</html>

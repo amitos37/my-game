@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "password": "123456",
+      "id": "admin",
+      "profileImage": "https://firebasestorage.googleapis.com/v0/b/amit-game-5a542.firebasestorage.app/o/user_profiles%2F1768389824233.jpg?alt=media&token=a308de06-fb30-4573-858d-38199771b15a",
+      "fullName": "עמית גרין",
+      "username": "admin",
+      "idNumber": "037728722",
+      "role": "admin",
+      "phone": "0542251116"
+    },
+    {
+      "phone": "0508236635",
+      "username": "nitsan",
+      "id": "nitsan",
+      "password": "123456",
+      "idNumber": "066347345",
+      "fullName": "ניצן גרין",
+      "role": "בודק מערכת"
+    },
+    {
+      "idNumber": "2222",
+      "username": "or",
+      "fullName": "אור ונונו",
+      "password": "123",
+      "phone": "2222",
+      "id": "or",
+      "role": "player"
+    }
+  ],
+  "roles": [
+    {
+      "permissions": [
+        "content",
+        "users",
+        "settings",
+        "game"
+      ],
+      "id": "admin",
+      "name": "מנהל על"
+    },
+    {
+      "name": "שחקן",
+      "permissions": [
+        "game"
+      ],
+      "id": "player"
+    },
+    {
+      "id": "בודק מערכת",
+      "name": "בודק מערכת",
+      "permissions": [
+        "content",
+        "settings",
+        "game"
+      ]
+    }
+  ]
+}
