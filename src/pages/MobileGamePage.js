@@ -7,17 +7,20 @@ const MobileGamePage = () => {
   const navigate = useNavigate();
   const publicUrl = process.env.PUBLIC_URL;
   
+  // --- States ---
   const [viewState, setViewState] = useState('welcome');
   const [tasks, setTasks] = useState([]); 
   const [availableTasks, setAvailableTasks] = useState([]); 
   const [categories, setCategories] = useState([]);
   const [selectedCats, setSelectedCats] = useState([]);
   
+  // Game Play States
   const [currentCard, setCurrentCard] = useState(null);
   const [isCardOpen, setIsCardOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
 
+  // Typewriter States
   const [displayedText, setDisplayedText] = useState("");
   const [displayedFooter, setDisplayedFooter] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,6 +30,7 @@ const MobileGamePage = () => {
 
   const categoryOrder = ['סקרנות', 'תשוקה', 'משחק מקדים', 'נועז במיוחד', 'שאלה חוצפנית', 'תוספת קרירה'];
 
+  // טעינת נתונים
   useEffect(() => {
     const fetchData = async () => {
       const catSnap = await getDocs(collection(db, "categories"));
@@ -85,6 +89,7 @@ const MobileGamePage = () => {
     }
   }, [isMainDone, footerIndex, isTypingDone]);
 
+  // לוגיקת משחק
   const handleStartGame = () => {
     const filtered = tasks.filter(t => selectedCats.includes(t.categoryId));
     if (filtered.length === 0) return alert("אין משימות בקטגוריות שנבחרו.");
@@ -163,7 +168,7 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 2. Instructions Screen */}
+      {/* 2. Instructions Screen - תיקון גלילה פנימית */}
       {viewState === 'instructions' && (
         <div className="center-box">
             <div className="glass-panel instruction-flex fade-in">
@@ -179,7 +184,7 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 3. Category Selection */}
+      {/* 3. Category Selection - תיקון יציבות המדחום */}
       {viewState === 'category-selection' && (
         <div className="center-box">
           <div className="selection-panel neon-border fade-in">
@@ -206,7 +211,9 @@ const MobileGamePage = () => {
                     </div>
                   ))}
                 </div>
-                {selectedCats.length > 0 && <button className="start-btn-neon" onClick={handleStartGame}>התחילו במשחק</button>}
+                <div className="selection-button-area">
+                    {selectedCats.length > 0 && <button className="start-btn-neon" onClick={handleStartGame}>התחילו במשחק</button>}
+                </div>
               </div>
             </div>
           </div>
@@ -234,12 +241,16 @@ const MobileGamePage = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; }
+        
+        /* שימוש ב-dvh למניעת בעיות גובה בדפדפנים בנייד */
         .game-wrapper { position: fixed; inset: 0; overflow: hidden; width: 100%; height: 100dvh; }
+        
         .red-theme { background: #000; }
         .gray-theme { background: #050505; } 
         .fixed-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.7; }
         .top-nav { position: fixed; top: 20px; right: 20px; z-index: 100; }
         .back-btn { background: rgba(0,0,0,0.5); border: 1px solid #fff; color: #fff; padding: 8px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 400 !important; }
+        
         .center-box { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         
         /* גדלים מקוריים למחשב */
@@ -255,22 +266,34 @@ const MobileGamePage = () => {
         .glass-panel { width: 95%; max-width: 500px; background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(10px); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.2); direction: rtl; display: flex; flex-direction: column; }
         .typewriter-area { color: #fff; font-size: 1rem; line-height: 1.7; text-align: right; white-space: pre-wrap; margin-bottom: 25px; }
 
-        /* חוקי המובייל - מופעלים רק במסכים קטנים */
+        /* --- חוקי מובייל ספציפיים --- */
         @media (max-width: 768px) {
           .hero-main { font-size: 3.5rem; }
           .hero-subline { font-size: 1.1rem; }
           .action-btn-neon { padding: 18px 40px; font-size: 1.3rem; }
           
+          /* תיקון הוראות בנייד */
           .glass-panel { max-height: 85dvh; padding: 20px; }
-          .mobile-scroll-area { flex: 1; overflow-y: auto; margin-bottom: 15px; }
+          .mobile-scroll-area { flex: 1; overflow-y: auto; margin-bottom: 15px; padding-left: 5px; }
           .button-footer { width: 100%; flex-shrink: 0; }
           
-          .selection-panel { height: auto; max-height: 90dvh; overflow-y: auto; }
-          .selection-layout { height: 60dvh; }
+          /* תיקון מדחום בנייד */
+          .selection-panel { padding: 20px; max-height: 90dvh; }
+          .selection-layout { height: 380px; gap: 15px; direction: ltr; }
+          .thermo-section { width: 35px; padding: 10px 0; }
+          .glass-pipe { width: 10px; top: 15px; bottom: 15px; }
+          .bead-track { height: 100%; }
+          .bead { width: 16px; height: 16px; }
+          .cats-section { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+          .cats-list { flex: 1; overflow-y: auto; padding-left: 5px; }
+          .full-row { padding: 12px 15px; margin-bottom: 8px; }
+          .cat-label { font-size: 1rem; }
+          .start-btn-neon { padding: 14px; font-size: 1.1rem; margin-top: 5px; }
+          
           .card-scene { width: 85vw; height: 55dvh; }
         }
 
-        /* שאר הסטיילים המקוריים */
+        /* סגנון הקלפים והמדחום (למחשב) */
         .card-scene { width: 300px; height: 420px; perspective: 1500px; cursor: pointer; }
         .active-card-wrapper { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
@@ -280,30 +303,32 @@ const MobileGamePage = () => {
         .full-img { width: 100%; height: 100%; object-fit: cover; }
         .card-text-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; text-align: center; }
         .card-text { color: #fff; font-size: 1.5rem; font-weight: 800 !important; direction: rtl; }
-        .deal-in { animation: dealIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .throw-out { animation: throwOut 0.5s ease-in forwards; }
-        @keyframes dealIn { from { transform: scale(0) rotate(-15deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
-        @keyframes throwOut { to { transform: translateX(120vw) rotate(30deg) scale(0.8); opacity: 0; } }
+        
         .selection-panel { width: 95%; max-width: 520px; background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 25px; border: 1px solid #fff; direction: rtl; }
-        .selection-layout { display: flex; gap: 25px; align-items: stretch; direction: ltr; }
+        .selection-layout { display: flex; gap: 25px; align-items: stretch; direction: ltr; height: 450px; }
         .thermo-section { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 105px; }
         .glass-pipe { width: 18px; background: rgba(255,255,255,0.1); position: absolute; top: 110px; bottom: 45px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); }
-        .mercury-fill { width: 100%; background: linear-gradient(to bottom, #007bff 0%, #ffffff 50%, #ff0000 100%); position: absolute; bottom: 0; transition: 0.6s; }
-        .bead-track { display: flex; flex-direction: column; justify-content: space-between; height: 355px; z-index: 2; }
-        .bead { width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.15), rgba(0,0,0,0.5)); border: 1px solid rgba(255,255,255,0.2); }
+        .mercury-fill { width: 100%; background: linear-gradient(to bottom, #007bff 0%, #ffffff 50%, #ff0000 100%); position: absolute; bottom: 0; transition: 0.6s; border-radius: 10px; }
+        .bead-track { display: flex; flex-direction: column; justify-content: space-between; height: 355px; z-index: 2; position: relative; }
+        .bead { width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.15), rgba(0,0,0,0.5)); border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
         .bead.active.dot-lvl-0 { background: #007bff; box-shadow: 0 0 15px #007bff; }
         .bead.active.dot-lvl-5 { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
+        
         .cats-section { flex: 1; direction: rtl; display: flex; flex-direction: column; }
         .full-row { width: 100%; display: flex; align-items: center; gap: 15px; padding: 18px 20px; background: #1a1a1a; border-radius: 15px; border: 1px solid transparent; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
         .check-circle { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 50%; flex-shrink: 0; }
         .check-circle.filled { background: #fff; box-shadow: 0 0 10px #fff; }
         .cat-label { color: #fff; font-size: 1.1rem; }
         .action-btn-neon-large { width: 100%; padding: 22px; font-size: 1.4rem; }
-        .start-btn-neon { width: 100%; padding: 18px; font-size: 1.4rem; background: #333; margin-top: 5px; }
-        .reshuffle-btn { margin-top: 30px; padding: 15px 45px; font-size: 1.4rem; }
-        .reshuffle-btn-large { padding: 18px 50px; font-size: 1.5rem; }
+        .start-btn-neon { width: 100%; padding: 18px; font-size: 1.4rem; background: #fff; color: #000; border: none; border-radius: 20px; font-weight: 700 !important; }
+        
+        /* אנימציות */
+        .deal-in { animation: dealIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .throw-out { animation: throwOut 0.5s ease-in forwards; }
+        @keyframes dealIn { from { transform: scale(0) rotate(-15deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+        @keyframes throwOut { to { transform: translateX(120vw) rotate(30deg) scale(0.8); opacity: 0; } }
         .fade-in { animation: fadeIn 0.6s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .luxury-scroll::-webkit-scrollbar { width: 4px; }
         .luxury-scroll::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
       `}</style>
