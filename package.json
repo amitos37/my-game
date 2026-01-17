@@ -2,7 +2,6 @@
   "name": "my-game",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://amitos37.github.io/my-game",
   "dependencies": {
     "firebase": "^12.7.0",
     "jszip": "^3.10.1",
