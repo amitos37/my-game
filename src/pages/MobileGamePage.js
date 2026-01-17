@@ -14,13 +14,11 @@ const MobileGamePage = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCats, setSelectedCats] = useState([]);
   
-  // Game Play States
   const [currentCard, setCurrentCard] = useState(null);
   const [isCardOpen, setIsCardOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
 
-  // Typewriter States
   const [displayedText, setDisplayedText] = useState("");
   const [displayedFooter, setDisplayedFooter] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,7 +28,6 @@ const MobileGamePage = () => {
 
   const categoryOrder = ['סקרנות', 'תשוקה', 'משחק מקדים', 'נועז במיוחד', 'שאלה חוצפנית', 'תוספת קרירה'];
 
-  // טעינת נתונים
   useEffect(() => {
     const fetchData = async () => {
       const catSnap = await getDocs(collection(db, "categories"));
@@ -89,7 +86,6 @@ const MobileGamePage = () => {
     }
   }, [isMainDone, footerIndex, isTypingDone]);
 
-  // לוגיקת משחק
   const handleStartGame = () => {
     const filtered = tasks.filter(t => selectedCats.includes(t.categoryId));
     if (filtered.length === 0) return alert("אין משימות בקטגוריות שנבחרו.");
@@ -168,23 +164,25 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 2. Instructions Screen - תיקון גלילה פנימית */}
+      {/* 2. Instructions Screen */}
       {viewState === 'instructions' && (
         <div className="center-box">
-            <div className="glass-panel instruction-flex fade-in">
+            <div className="glass-panel instruction-container fade-in">
                 <h2 className="panel-title">הוראות המשחק</h2>
-                <div className="typewriter-area mobile-scroll-area">
-                    <div className="main-instructions-box">{displayedText}</div>
-                    <div className="footer-centered-line">{displayedFooter}</div>
+                <div className="typewriter-scroll-area">
+                    <div className="typewriter-area">
+                        <div className="main-instructions-box">{displayedText}</div>
+                        <div className="footer-centered-line">{displayedFooter}</div>
+                    </div>
                 </div>
-                <div className="button-footer">
-                  {isTypingDone && <button className="action-btn-neon-large" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>}
+                <div className="instruction-button-footer">
+                    {isTypingDone && <button className="action-btn-neon-large" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>}
                 </div>
             </div>
         </div>
       )}
 
-      {/* 3. Category Selection - תיקון יציבות המדחום */}
+      {/* 3. Category Selection */}
       {viewState === 'category-selection' && (
         <div className="center-box">
           <div className="selection-panel neon-border fade-in">
@@ -211,7 +209,7 @@ const MobileGamePage = () => {
                     </div>
                   ))}
                 </div>
-                <div className="selection-button-area">
+                <div className="start-btn-footer">
                     {selectedCats.length > 0 && <button className="start-btn-neon" onClick={handleStartGame}>התחילו במשחק</button>}
                 </div>
               </div>
@@ -242,86 +240,95 @@ const MobileGamePage = () => {
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; }
         
-        /* שימוש ב-dvh למניעת בעיות גובה בדפדפנים בנייד */
-        .game-wrapper { position: fixed; inset: 0; overflow: hidden; width: 100%; height: 100dvh; }
-        
+        /* ברירת מחדל: מחשב (PC) - מחזיר את כל ההגדרות המקוריות */
+        .game-wrapper { position: fixed; inset: 0; overflow: hidden; width: 100%; height: 100vh; }
         .red-theme { background: #000; }
         .gray-theme { background: #050505; } 
         .fixed-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.7; }
         .top-nav { position: fixed; top: 20px; right: 20px; z-index: 100; }
-        .back-btn { background: rgba(0,0,0,0.5); border: 1px solid #fff; color: #fff; padding: 8px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 400 !important; }
         
+        /* כפתור חזרה המקורי */
+        .back-btn { background: rgba(0,0,0,0.5); border: 1px solid #fff; color: #fff; padding: 8px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 400 !important; }
+        .back-btn:hover { background: #fff; color: #000; }
+
         .center-box { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         
-        /* גדלים מקוריים למחשב */
+        /* הגדרות כותרת ולחצנים מקוריות למחשב */
         .hero-main { font-size: 5.5rem; font-weight: 800 !important; line-height: 1.1; margin-bottom: 20px; letter-spacing: -2px; color: #fff; text-align: center; }
         .hero-subline { font-size: 1.3rem; margin: 5px 0; opacity: 0.9; color: #fff; text-align: center; }
-        .action-btn-neon { padding: 22px 60px; font-size: 1.6rem; margin-top: 40px; }
         
         .action-btn-neon, .action-btn-neon-large, .start-btn-neon, .reshuffle-btn, .reshuffle-btn-large { 
           background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; 
           border-radius: 35px; cursor: pointer; transition: 0.3s; font-weight: 400 !important;
         }
-
-        .glass-panel { width: 95%; max-width: 500px; background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(10px); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.2); direction: rtl; display: flex; flex-direction: column; }
-        .typewriter-area { color: #fff; font-size: 1rem; line-height: 1.7; text-align: right; white-space: pre-wrap; margin-bottom: 25px; }
-
-        /* --- חוקי מובייל ספציפיים --- */
-        @media (max-width: 768px) {
-          .hero-main { font-size: 3.5rem; }
-          .hero-subline { font-size: 1.1rem; }
-          .action-btn-neon { padding: 18px 40px; font-size: 1.3rem; }
-          
-          /* תיקון הוראות בנייד */
-          .glass-panel { max-height: 85dvh; padding: 20px; }
-          .mobile-scroll-area { flex: 1; overflow-y: auto; margin-bottom: 15px; padding-left: 5px; }
-          .button-footer { width: 100%; flex-shrink: 0; }
-          
-          /* תיקון מדחום בנייד */
-          .selection-panel { padding: 20px; max-height: 90dvh; }
-          .selection-layout { height: 380px; gap: 15px; direction: ltr; }
-          .thermo-section { width: 35px; padding: 10px 0; }
-          .glass-pipe { width: 10px; top: 15px; bottom: 15px; }
-          .bead-track { height: 100%; }
-          .bead { width: 16px; height: 16px; }
-          .cats-section { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
-          .cats-list { flex: 1; overflow-y: auto; padding-left: 5px; }
-          .full-row { padding: 12px 15px; margin-bottom: 8px; }
-          .cat-label { font-size: 1rem; }
-          .start-btn-neon { padding: 14px; font-size: 1.1rem; margin-top: 5px; }
-          
-          .card-scene { width: 85vw; height: 55dvh; }
+        .action-btn-neon:hover, .action-btn-neon-large:hover, .start-btn-neon:hover, .reshuffle-btn:hover, .reshuffle-btn-large:hover { 
+          box-shadow: 0 0 30px #fff; background: rgba(255,255,255,0.1); border-color: #fff;
         }
+        
+        .action-btn-neon { padding: 22px 60px; font-size: 1.6rem; margin-top: 40px; }
+        .action-btn-neon-large { width: 100%; padding: 22px; font-size: 1.4rem; }
+        .start-btn-neon { width: 100%; padding: 18px; font-size: 1.4rem; background: #333; margin-top: 5px; }
+        .reshuffle-btn { margin-top: 30px; padding: 15px 45px; font-size: 1.4rem; }
 
-        /* סגנון הקלפים והמדחום (למחשב) */
+        /* הגדרות פאנלים מקוריות */
+        .glass-panel { width: 95%; max-width: 500px; background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(10px); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.2); direction: rtl; }
+        .panel-title { color: #fff; text-align: center; margin-bottom: 25px; font-size: 1.5rem; }
+        .typewriter-area { color: #fff; font-size: 1rem; line-height: 1.7; text-align: right; white-space: pre-wrap; margin-bottom: 25px; }
+        .footer-centered-line { text-align: center; margin-top: 30px; font-size: 1.3rem; font-weight: 700 !important; color: #ff0000; }
+
+        .selection-panel { width: 95%; max-width: 520px; background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 25px; border: 1px solid #fff; direction: rtl; }
+        .selection-layout { display: flex; gap: 25px; align-items: stretch; direction: ltr; }
+        .thermo-section { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 105px; }
+        .glass-pipe { width: 18px; background: rgba(255,255,255,0.1); position: absolute; top: 110px; bottom: 45px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); }
+        .mercury-fill { width: 100%; background: linear-gradient(to bottom, #007bff 0%, #ffffff 50%, #ff0000 100%); position: absolute; bottom: 0; transition: 0.6s; border-radius: 10px; }
+        .bead-track { display: flex; flex-direction: column; justify-content: space-between; height: 355px; z-index: 2; position: relative; }
+        .bead { width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.15), rgba(0,0,0,0.5)); border: 1px solid rgba(255,255,255,0.2); }
+        .bead.active.dot-lvl-0 { background: #007bff; box-shadow: 0 0 15px #007bff; }
+        .bead.active.dot-lvl-5 { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
+
+        .cats-section { flex: 1; direction: rtl; display: flex; flex-direction: column; }
+        .full-row { width: 100%; display: flex; align-items: center; gap: 15px; padding: 18px 20px; background: #1a1a1a; border-radius: 15px; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
+        .check-circle { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 50%; }
+        .check-circle.filled { background: #fff; box-shadow: 0 0 10px #fff; }
+        .cat-label { color: #fff; font-size: 1.1rem; }
+
         .card-scene { width: 300px; height: 420px; perspective: 1500px; cursor: pointer; }
-        .active-card-wrapper { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
         .flip-inner.flipped { transform: rotateY(180deg); }
         .flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .flip-back { transform: rotateY(180deg); background: #111; }
         .full-img { width: 100%; height: 100%; object-fit: cover; }
-        .card-text-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; text-align: center; }
-        .card-text { color: #fff; font-size: 1.5rem; font-weight: 800 !important; direction: rtl; }
-        
-        .selection-panel { width: 95%; max-width: 520px; background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 25px; border: 1px solid #fff; direction: rtl; }
-        .selection-layout { display: flex; gap: 25px; align-items: stretch; direction: ltr; height: 450px; }
-        .thermo-section { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 105px; }
-        .glass-pipe { width: 18px; background: rgba(255,255,255,0.1); position: absolute; top: 110px; bottom: 45px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); }
-        .mercury-fill { width: 100%; background: linear-gradient(to bottom, #007bff 0%, #ffffff 50%, #ff0000 100%); position: absolute; bottom: 0; transition: 0.6s; border-radius: 10px; }
-        .bead-track { display: flex; flex-direction: column; justify-content: space-between; height: 355px; z-index: 2; position: relative; }
-        .bead { width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.15), rgba(0,0,0,0.5)); border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
-        .bead.active.dot-lvl-0 { background: #007bff; box-shadow: 0 0 15px #007bff; }
-        .bead.active.dot-lvl-5 { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
-        
-        .cats-section { flex: 1; direction: rtl; display: flex; flex-direction: column; }
-        .full-row { width: 100%; display: flex; align-items: center; gap: 15px; padding: 18px 20px; background: #1a1a1a; border-radius: 15px; border: 1px solid transparent; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-        .check-circle { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 50%; flex-shrink: 0; }
-        .check-circle.filled { background: #fff; box-shadow: 0 0 10px #fff; }
-        .cat-label { color: #fff; font-size: 1.1rem; }
-        .action-btn-neon-large { width: 100%; padding: 22px; font-size: 1.4rem; }
-        .start-btn-neon { width: 100%; padding: 18px; font-size: 1.4rem; background: #fff; color: #000; border: none; border-radius: 20px; font-weight: 700 !important; }
-        
+        .card-text { color: #fff; font-size: 1.5rem; font-weight: 800 !important; text-align: center; direction: rtl; display: block; width: 100%; }
+
+        /* --- מובייל בלבד: מופעל רק במסכים קטנים --- */
+        @media (max-width: 768px) {
+          .game-wrapper { height: 100dvh; }
+          .hero-main { font-size: 3.5rem; }
+          .hero-subline { font-size: 1.1rem; }
+          .action-btn-neon { padding: 18px 40px; font-size: 1.3rem; }
+
+          /* תיקון הוראות בנייד: הלחצן תמיד נראה והטקסט גולל */
+          .glass-panel { max-height: 85dvh; display: flex; flex-direction: column; padding: 20px; }
+          .typewriter-scroll-area { flex: 1; overflow-y: auto; margin-bottom: 15px; padding-left: 5px; }
+          .instruction-button-footer { width: 100%; flex-shrink: 0; }
+          .action-btn-neon-large { padding: 18px; font-size: 1.2rem; }
+
+          /* תיקון מדחום בנייד: גובה מקובע למניעת שבירת המדחום */
+          .selection-panel { padding: 20px; max-height: 92dvh; }
+          .selection-layout { height: 380px; gap: 15px; align-items: stretch; direction: ltr; }
+          .thermo-section { width: 35px; padding: 10px 0; }
+          .glass-pipe { width: 10px; top: 15px; bottom: 15px; }
+          .bead { width: 16px; height: 16px; }
+          
+          .cats-section { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+          .cats-list { flex: 1; overflow-y: auto; padding-left: 5px; }
+          .full-row { padding: 12px 15px; margin-bottom: 8px; }
+          .cat-label { font-size: 1rem; }
+          .start-btn-neon { padding: 14px; font-size: 1.1rem; }
+          
+          .card-scene { width: 85vw; height: 55dvh; }
+        }
+
         /* אנימציות */
         .deal-in { animation: dealIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .throw-out { animation: throwOut 0.5s ease-in forwards; }
