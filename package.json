@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^12.7.0",
+    "framer-motion": "^12.26.2",
     "jszip": "^3.10.1",
     "react": "latest",
     "react-dom": "latest",

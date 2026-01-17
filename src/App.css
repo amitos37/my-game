@@ -32,4 +32,111 @@
   font-weight: bold;
   margin-top: 10px;
   margin-bottom: env(safe-area-inset-bottom); /* מרווח בטיחות לאייפונים חדשים */
+/* עיצוב רספונסיבי למסך ההוראות */
+.instructions-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: #050505; /* שחור עמוק */
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  padding: 20px;
+  color: white;
+}
+
+.instructions-scroll-area {
+  flex: 1; /* דוחף את הלחצן למטה ותופס את שאר המקום */
+  overflow-y: auto; /* מאפשר גלילה רק לטקסט */
+  text-align: right;
+  direction: rtl;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch; /* גלילה חלקה באייפון */
+}
+
+.instructions-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.instructions-button-area {
+  flex-shrink: 0; /* מונע מהאזור להתכווץ */
+  padding: 10px 0;
+  margin-bottom: env(safe-area-inset-bottom); /* תאימות לאייפונים */
+}
+
+.start-game-button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(45deg, #ff0000, #b30000);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+  cursor: pointer;
+}/* הגדרות בסיס למובייל */
+.game-wrapper {
+  background-color: #050505;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.instructions-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: #050505;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 9999;
+}
+
+.instructions-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  text-align: right;
+  direction: rtl;
+  color: white;
+}
+
+.instructions-title { color: #ff0000; font-size: 2rem; }
+
+.instructions-button-area {
+  padding: 15px 0;
+  margin-bottom: env(safe-area-inset-bottom); /* מרווח לאייפונים */
+}
+
+.start-game-button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(45deg, #ff0000, #b30000);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* עיצוב הקלפים */
+.game-container-mobile {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card-display {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 20px;
+  border: 2px solid #ff0000;
+  text-align: center;
+  color: white;
+  width: 90%;
+}
 }
