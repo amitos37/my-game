@@ -15,7 +15,6 @@ const MobileGamePage = () => {
   const [selectedCats, setSelectedCats] = useState([]);
   const [wasAllSelectedByButton, setWasAllSelectedByButton] = useState(false);
   
-  // Game Play States
   const [currentCard, setCurrentCard] = useState(null);
   const [isCardOpen, setIsCardOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -94,26 +93,30 @@ const MobileGamePage = () => {
   return (
     <div className={`game-wrapper ${viewState === 'game-play' ? 'gray-theme' : 'red-theme'}`}>
       <div className="global-bg-layer">{(viewState !== 'game-play') && <img src={`${publicUrl}/images/bg_red.png`} alt="" className="full-bg" />}</div>
-      <div className="top-navigation"><button className="back-to-menu-btn neon-white-hover" onClick={() => navigate('/main-menu')}>חזרה לתפריט</button></div>
+      
+      {/* Header ניווט קבוע */}
+      <div className="layout-header-fixed">
+          <button className="ui-back-button neon-white-hover" onClick={() => navigate('/main-menu')}>חזרה לתפריט</button>
+      </div>
 
       {/* 1. Welcome Screen */}
       {viewState === 'welcome' && (
-        <div className="state-view-container">
-            <div className="welcome-hero-box fade-in">
-                <h1 className="hero-main-title">לחשוף,<br/>לציית,<br/>לגעת.</h1>
-                <div className="hero-subtext-group"><p>משחק קלפים ללא גבולות</p><p>למבוגרים בלבד</p></div>
-                <button className="action-neon-btn neon-white-hover" onClick={() => setViewState('instructions')}>התקדמו להוראות המשחק</button>
+        <div className="view-stage center-flex">
+            <div className="welcome-box fade-in">
+                <h1 className="hero-h1-v5">לחשוף,<br/>לציית,<br/>לגעת.</h1>
+                <div className="hero-p-group"><p>משחק קלפים ללא גבולות</p><p>למבוגרים בלבד</p></div>
+                <button className="ui-start-btn neon-white-hover" onClick={() => setViewState('instructions')}>התקדמו להוראות המשחק</button>
             </div>
         </div>
       )}
 
-      {/* 2. Instructions Screen - ללא גלילה, מתחת ללחצן וללא חיתוך */}
+      {/* 2. Instructions Screen */}
       {viewState === 'instructions' && (
-        <div className="state-view-container instructions-exact-layout">
-            <div className="instr-card-exact-v2 fade-in">
-                <h2 className="instr-header-v2">הוראות המשחק</h2>
-                <div className="instr-body-v2">
-                    <div className="instr-section tight-v">
+        <div className="view-stage top-fixed-flex">
+            <div className="instr-card-strict fade-in">
+                <h2 className="instr-header-strict">הוראות המשחק</h2>
+                <div className="instr-body-strict">
+                    <div className="instr-section-v5 tight">
                         <p>משחק תושקתי, מסקרן, סקסי ושובב במיוחד .</p>
                         <p>אנחנו מול הגבולות וגילויי המיניות הזוגית שלנו.</p>
                         <p>שחקו משחק קלפים כמו פוקר, ,21 יניב וכו' .</p>
@@ -121,70 +124,71 @@ const MobileGamePage = () => {
                         <p>תוכלו לשחק במשחק כפי שהוא, פשוט לחשוף</p>
                         <p>קלף כל אחד בתורו ולבצע. נשמע כיף לא ?!</p>
                     </div>
-                    <div className="instr-section centered gap-v2"><p>תמצאו במשחק...</p></div>
-                    <div className="instr-section tight-v">
+                    <div className="instr-section-v5 centered gap-small"><p>תמצאו במשחק...</p></div>
+                    <div className="instr-section-v5 tight">
                         <p>קלפי שאלות שיחשפו קצת juice.</p>
                         <p>קלפי סקרנות יגלו לכם דרכים חדשות של עונג, מגע ושיח .</p>
                         <p>קלפי תשוקה יתנו לכם רמז למשחק המקדים הסקסי שתכף יגיע .</p>
                         <p>קלפי המשחק המקדים ישלחו אתכם לשחק אחד עם השניה.</p>
                         <p>הקלפים הנועזים במיוחד יראו לכם שאין גבולות .</p>
                     </div>
-                    <div className="instr-section tight-v gap-v2">
+                    <div className="instr-section-v5 tight gap-small">
                         <p>הכי חשוב שתהנו, שתפתחו את הראש ושתעפו</p>
                         <p>על עצמכם. ותגלו כמה גבולות נועדנו לפרוץ.</p>
                     </div>
                 </div>
-                <div className="instr-footer-v2">ייאלה סקסיים למיטה!</div>
+                <div className="instr-footer-msg-v5">ייאלה סקסיים למיטה!</div>
             </div>
-            <div className="instr-btn-container-v2">
-                <button className="instr-final-btn neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
+            <div className="instr-action-container-v5">
+                <button className="ui-action-btn-v5 neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
             </div>
         </div>
       )}
 
-      {/* 3. Category Selection */}
+      {/* 3. Category Selection - יציב עם לחצן ניאון */}
       {viewState === 'category-selection' && (
-        <div className={`state-view-container selection-view ${thermo.type === 'ice' ? 'global-frost-active' : ''}`}>
+        <div className={`view-stage top-fixed-flex ${thermo.type === 'ice' ? 'ice-active-bg' : ''}`}>
           {thermo.type === 'ice' && (
-              <div className="global-snow-layer">
-                  {[...Array(25)].map((_, i) => (
-                      <div key={i} className="snowflake-particle" style={{
-                          left: `${Math.random() * 100}%`,
-                          animationDelay: `${Math.random() * 5}s`,
-                          fontSize: `${14 + Math.random() * 18}px`
-                      }}>❄</div>
+              <div className="global-snow-container">
+                  {[...Array(20)].map((_, i) => (
+                    <div key={i} className="snow-p" style={{
+                      left: `${Math.random() * 100}%`,
+                      animationDelay: `${Math.random() * 5}s`,
+                      fontSize: `${12 + Math.random() * 14}px`
+                    }}>❄</div>
                   ))}
               </div>
           )}
-          <div className="cats-panel-box-global neon-border fade-in">
-            <h2 className="cats-title-global">בחרו קטגוריות למשחק</h2>
-            <div className="cats-layout-grid-global">
-              <div className={`thermo-v-widget-global ${thermo.type === 'ice' ? 'shaking-global' : ''}`}>
-                <div className="glass-tube-global">
-                    <div className={`mercury-fill-global color-v-${thermo.type}`} style={{ height: thermo.height }}></div>
-                    {thermo.type === 'ice' && <div className="ice-mist-global"></div>}
+          <div className="selection-panel-strict neon-border fade-in">
+            <h2 className="selection-header-v5">בחרו קטגוריות למשחק</h2>
+            <div className="selection-grid-v5">
+              <div className={`thermo-v5 ${thermo.type === 'ice' ? 'shaking-fx' : ''}`}>
+                <div className="glass-v5">
+                    <div className={`fill-v5 type-${thermo.type}`} style={{ height: thermo.height }}></div>
+                    {thermo.type === 'ice' && <div className="mist-fx"></div>}
                 </div>
-                <div className="bead-indicators-global">{categories.map((c, i) => (<div key={c.id} className={`bead-global ${selectedCats.includes(c.id) ? 'active' : ''}`}></div>))}</div>
+                <div className="dots-v5">{categories.map((c, i) => (<div key={c.id} className={`dot-item ${selectedCats.includes(c.id) ? 'active' : ''}`}></div>))}</div>
               </div>
-              <div className="cats-list-container-global">
-                <div className="cat-row-global header-row" onClick={toggleAll}>
-                  <div className={`custom-radio-global ${selectedCats.length === categories.length ? 'selected' : ''}`}></div>
-                  <span className="cat-label-txt">ביחרו הכל</span>
+              <div className="list-col-v5">
+                <div className="row-v5 header-v5" onClick={toggleAll}>
+                  <div className={`radio-v5 ${selectedCats.length === categories.length ? 'on' : ''}`}></div>
+                  <span>ביחרו הכל</span>
                 </div>
-                <div className="cat-static-list-no-scroll">
+                <div className="scroll-content-v5">
                   {categories.map((cat) => {
-                    const isIceRow = cat.name === 'תוספת קרירה' && selectedCats.includes(cat.id) && !wasAllSelectedByButton;
+                    const isCold = cat.name === 'תוספת קרירה' && selectedCats.includes(cat.id) && !wasAllSelectedByButton;
                     return (
-                      <div key={cat.id} className={`cat-row-global ${selectedCats.includes(cat.id) ? 'active' : ''} ${isIceRow ? 'ice-row-frost' : ''}`} onClick={() => toggleCategory(cat.id)}>
-                        <div className={`custom-radio-global ${selectedCats.includes(cat.id) ? 'selected' : ''} ${isIceRow ? 'ice-dot' : ''}`}></div>
-                        <span className="cat-label-txt">{cat.name}</span>
+                      <div key={cat.id} className={`row-v5 ${selectedCats.includes(cat.id) ? 'active' : ''} ${isCold ? 'ice-row-v5' : ''}`} onClick={() => toggleCategory(cat.id)}>
+                        <div className={`radio-v5 ${selectedCats.includes(cat.id) ? 'on' : ''} ${isCold ? 'ice-dot-v5' : ''}`}></div>
+                        <span>{cat.name}</span>
                       </div>
                     );
                   })}
                 </div>
+                {/* לחצן "התחילו במשחק" עם אפקט ניאון */}
                 {selectedCats.length > 0 && (
-                    <div className="start-btn-container-global">
-                        <button className="start-btn-global neon-white-hover" onClick={handleStartGame}>התחילו במשחק</button>
+                    <div className="start-btn-mount-v5">
+                        <button className="ui-play-btn neon-white-hover" onClick={handleStartGame}>התחילו במשחק</button>
                     </div>
                 )}
               </div>
@@ -195,116 +199,127 @@ const MobileGamePage = () => {
 
       {/* 4. Game Play */}
       {viewState === 'game-play' && currentCard && (
-        <div className="state-view-container">
-          <div className="card-scene" onClick={handleCardClick}>
-            <div key={currentCard.text} className={`active-card-wrapper ${isExiting ? 'throw-out' : 'deal-in'}`}>
-              <div className={`flip-inner ${isCardOpen ? 'flipped' : ''}`}>
-                <div className="flip-front"><img src={currentCard.backImage} alt="" className="img-fit" /></div>
-                <div className="flip-back">
-                  {currentCard.image && <img src={currentCard.image} alt="" className="img-fit" />}
-                  <div className="card-text-container"><span className="card-text">{currentCard.text}</span></div>
+        <div className="view-stage center-flex">
+          <div className="game-card-scene-v5" onClick={handleCardClick}>
+            <div key={currentCard.text} className={`game-card-v5 ${isExiting ? 'exit' : 'enter'}`}>
+              <div className={`flip-box-v5 ${isCardOpen ? 'flipped' : ''}`}>
+                <div className="face front"><img src={currentCard.backImage} alt="" className="img-v5" /></div>
+                <div className="face back">
+                  {currentCard.image && <img src={currentCard.image} alt="" className="img-v5" />}
+                  <div className="txt-box-v5"><span>{currentCard.text}</span></div>
                 </div>
               </div>
             </div>
           </div>
-          <button className="reshuffle-btn neon-white-hover" onClick={() => setViewState('category-selection')}>חיזרו לבחירה</button>
+          <button className="ui-reshuffle-btn neon-white-hover" onClick={() => setViewState('category-selection')}>חיזרו לבחירה</button>
         </div>
       )}
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
-        * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; }
+        * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; margin: 0; padding: 0; }
         
-        .game-wrapper { position: fixed; inset: 0; width: 100%; height: 100dvh; overflow: hidden; }
+        .game-wrapper { position: fixed; inset: 0; width: 100%; height: 100dvh; overflow: hidden; background: #000; }
         .red-theme { background: #000; } .gray-theme { background: #050505; }
         .global-bg-layer { position: absolute; inset: 0; z-index: -1; opacity: 0.7; }
         .full-bg { width: 100%; height: 100%; object-fit: cover; }
-        .top-navigation { position: fixed; top: 20px; right: 20px; z-index: 1000; }
-        .back-to-menu-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 8px 20px; border-radius: 30px; cursor: pointer; }
-        .neon-white-hover:hover { box-shadow: 0 0 25px #fff !important; border-color: #fff !important; background: rgba(255,255,255,0.1) !important; }
-        .state-view-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-
-        .hero-main-title { color: #fff; text-align: center; font-size: clamp(3rem, 10vh, 5.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 2vh; }
-        .hero-subtext-group { text-align: center; color: #fff; margin-bottom: 4vh; }
-        .action-neon-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 18px 60px; font-size: 1.4rem; font-weight: 700; border-radius: 40px; cursor: pointer; transition: 0.3s; }
-
-        /* --- Instructions - No Scroll & Fixed Layout --- */
-        .instructions-exact-layout { 
-            justify-content: flex-start; 
-            padding-top: 90px; /* מבטיח שהקלף תמיד מתחת לכפתור "חזרה" */
-            height: 100dvh; 
-            gap: 2vh; 
+        
+        /* Navigation */
+        .layout-header-fixed { position: fixed; top: 15px; right: 20px; z-index: 2000; }
+        .ui-back-button { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 8px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        
+        /* --- Neon White Effect --- */
+        .neon-white-hover:hover { 
+            box-shadow: 0 0 25px #fff !important; 
+            border-color: #fff !important; 
+            background: rgba(255,255,255,0.15) !important; 
+            color: #fff !important; 
         }
-        .instr-card-exact-v2 { 
+
+        .view-stage { width: 100%; height: 100%; display: flex; flex-direction: column; padding: 20px; }
+        .center-flex { align-items: center; justify-content: center; }
+        .top-fixed-flex { justify-content: flex-start; align-items: center; padding-top: 85px; gap: 15px; }
+
+        /* Welcome */
+        .hero-h1-v5 { color: #fff; text-align: center; font-size: clamp(3rem, 12vh, 5.5rem); font-weight: 800; line-height: 1; margin-bottom: 2vh; }
+        .hero-p-group { text-align: center; color: #fff; margin-bottom: 5vh; }
+        .ui-start-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 18px 50px; font-size: 1.4rem; font-weight: 700; border-radius: 40px; cursor: pointer; transition: 0.3s; }
+
+        /* --- Instructions --- */
+        .instr-card-strict { 
             width: 95%; max-width: 580px; 
-            background: rgba(15, 15, 15, 0.92); border: 1px solid rgba(255,255,255,0.25); 
-            border-radius: 35px; padding: clamp(20px, 3.5vh, 40px); direction: rtl; 
+            background: rgba(15, 15, 15, 0.95); border: 1px solid rgba(255,255,255,0.3); 
+            border-radius: 35px; padding: clamp(15px, 4vh, 35px); direction: rtl; 
             display: flex; flex-direction: column; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7); 
-            flex-shrink: 1; /* מתכווץ כדי להתאים למסך */
-            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8); 
+            max-height: calc(100dvh - 210px); flex-shrink: 1; overflow: hidden;
         }
-        .instr-header-v2 { color: #fff; text-align: center; font-size: clamp(1.8rem, 3.8vh, 2.2rem); margin-bottom: 1.5vh; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1vh; flex-shrink: 0; }
-        .instr-body-v2 { color: #fff; text-align: center; width: 100%; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around; }
-        .instr-section.tight-v p { line-height: 1.3; margin: 0; font-size: clamp(0.85rem, 1.7vh, 1.05rem); }
-        .instr-section.gap-v2 { margin-top: 1.2vh !important; }
-        .instr-footer-v2 { font-size: clamp(1.3rem, 3vh, 1.6rem); font-weight: 800; color: #fff; text-align: center; padding-top: 1vh; flex-shrink: 0; }
-        .instr-btn-container-v2 { width: 100%; display: flex; justify-content: center; flex-shrink: 0; padding-bottom: 15px; }
-        .instr-final-btn { padding: clamp(12px, 1.8vh, 18px) 60px; font-size: 1.3rem; border-radius: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; font-weight: 700; }
+        .instr-header-strict { color: #fff; text-align: center; font-size: clamp(1.6rem, 3.5vh, 2.2rem); margin-bottom: 1.5vh; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1vh; flex-shrink: 0; }
+        .instr-body-strict { color: #fff; text-align: center; width: 100%; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around; }
+        .instr-section-v5.tight p { line-height: 1.35; margin: 0; font-size: clamp(0.8rem, 1.75vh, 1.05rem); white-space: nowrap; }
+        .gap-small { margin-top: 1.2vh !important; }
+        .instr-footer-msg-v5 { font-size: clamp(1.3rem, 3vh, 1.7rem); font-weight: 800; color: #fff; text-align: center; padding-top: 1.5vh; flex-shrink: 0; }
+        .instr-action-container-v5 { width: 100%; display: flex; justify-content: center; flex-shrink: 0; padding-top: 10px; }
+        .ui-action-btn-v5 { padding: clamp(12px, 1.8vh, 18px) 50px; font-size: 1.25rem; border-radius: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; font-weight: 700; transition: 0.3s; }
 
-        @media (max-width: 768px) { 
-            .instructions-exact-layout { padding-top: 80px; }
-            .instr-card-exact-v2 { padding: 25px 20px; width: 92%; } 
-            .instr-final-btn { padding: 12px 40px; font-size: 1.1rem; }
+        /* --- Category Selection Final --- */
+        .selection-panel-strict { 
+            width: 95%; max-width: 580px; 
+            background: rgba(15, 15, 15, 0.95); padding: clamp(15px, 3vh, 30px); 
+            border-radius: 25px; border: 1px solid #fff; 
+            direction: rtl; z-index: 10; display: flex; flex-direction: column; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.6); 
+            max-height: calc(100dvh - 170px); flex-shrink: 1;
         }
+        .selection-header-v5 { color: #fff; text-align: center; font-size: clamp(1.4rem, 2.8vh, 1.9rem); margin-bottom: 15px; flex-shrink: 0; }
+        .selection-grid-v5 { display: flex; gap: clamp(10px, 3.5vw, 30px); direction: ltr; align-items: stretch; overflow: hidden; flex-grow: 1; }
+        
+        .thermo-v5 { width: 40px; position: relative; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+        .glass-v5 { width: 16px; background: rgba(255,255,255,0.1); position: absolute; top: 5px; bottom: 5px; border-radius: 15px; border: 1.5px solid rgba(255,255,255,0.3); overflow: hidden; }
+        .fill-v5 { position: absolute; bottom: 0; width: 100%; transition: all 0.7s ease-in-out; }
+        .type-full { background: linear-gradient(to top, #007bff 0%, #ffffff 50%, #ff0000 100%); }
+        .type-red { background: #ff0000; box-shadow: 0 0 12px #ff0000; }
+        .type-blue { background: #007bff; box-shadow: 0 0 12px #007bff; }
+        .type-ice { background: #fff !important; box-shadow: 0 0 25px #fff; }
+        .shaking-fx { animation: vShake 0.1s infinite !important; }
+        @keyframes vShake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
+        
+        .dots-v5 { display: flex; flex-direction: column; justify-content: space-between; height: 100%; z-index: 2; padding: 12px 0; }
+        .dot-item { width: 13px; height: 13px; border-radius: 50%; background: #222; border: 1px solid rgba(255,255,255,0.1); }
+        .dot-item.active { background: #fff; box-shadow: 0 0 8px #fff; }
 
-        /* --- Category Selection Styles --- */
-        .cats-panel-box-global { width: 95%; max-width: 580px; background: rgba(15, 15, 15, 0.95); padding: 35px; border-radius: 25px; border: 1px solid #fff; direction: rtl; z-index: 10; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
-        .cats-title-global { color: #fff; text-align: center; font-size: clamp(1.6rem, 3.5vh, 2.2rem); margin-bottom: 25px; }
-        .cats-layout-grid-global { display: flex; gap: clamp(15px, 4vw, 40px); direction: ltr; align-items: stretch; }
-        .thermo-v-widget-global { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-        .shaking-global { animation: globalVibe 0.1s infinite !important; }
-        @keyframes globalVibe { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
-        .glass-tube-global { width: 20px; background: rgba(255,255,255,0.1); position: absolute; top: 10px; bottom: 10px; border-radius: 15px; border: 2px solid rgba(255,255,255,0.3); overflow: hidden; }
-        .mercury-fill-global { position: absolute; bottom: 0; width: 100%; transition: all 0.8s ease-in-out; }
-        .color-v-full { background: linear-gradient(to top, #007bff 0%, #ffffff 50%, #ff0000 100%); }
-        .color-v-red { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
-        .color-v-blue { background: #007bff; box-shadow: 0 0 15px #007bff; }
-        .color-v-ice { background: #fff !important; box-shadow: 0 0 30px #fff; }
-        .bead-indicators-global { display: flex; flex-direction: column; justify-content: space-between; height: 100%; z-index: 2; padding: 15px 0; }
-        .bead-global { width: 15px; height: 15px; border-radius: 50%; background: #222; border: 1px solid rgba(255,255,255,0.1); }
-        .bead-global.active { background: #fff; box-shadow: 0 0 10px #fff; }
-        .cats-list-container-global { flex: 1; direction: rtl; display: flex; flex-direction: column; gap: 12px; }
-        .cat-row-global { display: flex; align-items: center; gap: 15px; padding: 15px 22px; background: #1a1a1a; border-radius: 15px; cursor: pointer; color: #fff; transition: 0.3s; width: 100%; }
-        .cat-row-global.active { background: #222; border: 1px solid rgba(255,255,255,0.3); }
-        .custom-radio-global { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 50%; flex-shrink: 0; }
-        .custom-radio-global.selected { background: #fff; }
-        .cat-static-list-no-scroll { display: flex; flex-direction: column; gap: 10px; }
-        .start-btn-container-global { margin-top: 25px; width: 100%; flex-shrink: 0; }
-        .start-btn-global { width: 100%; padding: clamp(15px, 2.2vh, 20px); border-radius: 35px; background: #333; border: 1px solid #fff; color: #fff; cursor: pointer; font-size: 1.35rem; font-weight: 700; transition: 0.3s; }
+        .list-col-v5 { flex: 1; direction: rtl; display: flex; flex-direction: column; overflow: hidden; }
+        .row-v5 { display: flex; align-items: center; gap: 12px; padding: clamp(10px, 1.5vh, 14px) 18px; background: #1a1a1a; border-radius: 12px; cursor: pointer; color: #fff; transition: 0.2s; width: 100%; flex-shrink: 0; margin-bottom: 6px; }
+        .row-v5.active { background: #222; border: 1px solid rgba(255,255,255,0.3); }
+        .radio-v5 { width: 18px; height: 18px; border: 2px solid #fff; border-radius: 50%; flex-shrink: 0; }
+        .radio-v5.on { background: #fff; }
+        .scroll-content-v5 { flex-grow: 1; display: flex; flex-direction: column; overflow-y: hidden; }
+        
+        .start-btn-mount-v5 { margin-top: auto; padding-top: 15px; width: 100%; flex-shrink: 0; }
+        .ui-play-btn { width: 100%; padding: clamp(14px, 2vh, 18px); border-radius: 35px; background: #333; border: 1px solid #fff; color: #fff; cursor: pointer; font-size: 1.35rem; font-weight: 700; transition: 0.3s; }
 
-        .global-frost-active { background: rgba(40, 40, 50, 0.7) !important; backdrop-filter: grayscale(0.8) blur(3px); }
-        .global-snow-layer { position: absolute; inset: 0; pointer-events: none; z-index: 99; overflow: hidden; }
-        .snowflake-particle { position: absolute; color: #fff; top: -30px; animation: snowFallGlobal 5s linear infinite; opacity: 0.8; }
-        @keyframes snowFallGlobal { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(110dvh) rotate(360deg); } }
-        .ice-row-frost { background: rgba(224, 242, 254, 0.5) !important; border: 2px solid #fff !important; box-shadow: inset 0 0 25px rgba(255,255,255,0.7), 0 0 20px #fff; }
+        /* Ice active */
+        .ice-active-bg { background: rgba(40, 40, 50, 0.7) !important; backdrop-filter: grayscale(0.8) blur(3px); }
+        .global-snow-container { position: absolute; inset: 0; pointer-events: none; z-index: 1000; overflow: hidden; }
+        .snow-p { position: absolute; color: #fff; top: -30px; animation: snowFall 5s linear infinite; opacity: 0.8; }
+        @keyframes snowFall { 0% { transform: translateY(0); } 100% { transform: translateY(110dvh); } }
+        .ice-row-v5 { background: rgba(224, 242, 254, 0.5) !important; border: 2px solid #fff !important; box-shadow: inset 0 0 20px rgba(255,255,255,0.7), 0 0 15px #fff; }
 
         /* Gameplay */
-        .card-scene { width: 300px; height: 420px; perspective: 1500px; cursor: pointer; position: relative; }
-        .active-card-wrapper { width: 100%; height: 100%; transform-style: preserve-3d; }
-        .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        .flip-inner.flipped { transform: rotateY(180deg); }
-        .flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; overflow: hidden; background: #111; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .flip-back { transform: rotateY(180deg); }
-        .img-fit { width: 100%; height: 100%; object-fit: cover; }
-        .card-text-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; text-align: center; }
-        .card-text { color: #fff; font-size: 1.5rem; font-weight: 800 !important; direction: rtl; display: block; width: 100%; }
-        .reshuffle-btn { margin-top: 30px; padding: 15px 45px; font-size: 1.4rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
-        .deal-in { animation: cardIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .throw-out { animation: cardOut 0.5s ease-in forwards; }
-        @keyframes cardIn { from { transform: scale(0) rotate(-15deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
-        @keyframes cardOut { to { transform: translateX(120vw) rotate(30deg) scale(0.8); opacity: 0; } }
-        .fade-in { animation: viewFade 0.5s ease; } @keyframes viewFade { from { opacity: 0; } to { opacity: 1; } }
+        .game-card-scene-v5 { width: 280px; height: 390px; perspective: 1200px; cursor: pointer; position: relative; }
+        .game-card-v5 { width: 100%; height: 100%; transform-style: preserve-3d; }
+        .flip-box-v5 { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .flip-box-v5.flipped { transform: rotateY(180deg); }
+        .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; overflow: hidden; background: #111; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .back { transform: rotateY(180deg); }
+        .img-v5 { width: 100%; height: 100%; object-fit: cover; }
+        .txt-box-v5 { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; text-align: center; }
+        .txt-box-v5 span { color: #fff; font-size: 1.4rem; font-weight: 800 !important; direction: rtl; display: block; }
+        .ui-reshuffle-btn { margin-top: 30px; padding: 12px 45px; font-size: 1.3rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
+        
+        .enter { animation: cEnter 0.6s forwards; } @keyframes cEnter { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .exit { animation: cExit 0.5s ease-in forwards; } @keyframes cExit { to { transform: translateX(120vw) rotate(30deg) scale(0.8); opacity: 0; } }
+        .fade-in { animation: vFadeIn 0.5s ease; } @keyframes vFadeIn { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
     </div>
   );
