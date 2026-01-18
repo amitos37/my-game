@@ -104,44 +104,41 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 2. Instructions Screen - תצוגה מדויקת של הפסקאות כפי שביקשת */}
+      {/* 2. Instructions Screen - תצוגה מורכזת ומדויקת לפי כל התמונות וה-PDF */}
       {viewState === 'instructions' && (
         <div className="instruction-master-container">
             <div className="instruction-card-layout fade-in">
                 <h2 className="instruction-card-title">הוראות המשחק</h2>
                 
-                <div className="instruction-pdf-content">
-                    {/* הפסקה הראשונה המאוחדת */}
+                <div className="instruction-pdf-content centered-content">
+                    {/* פסקה ראשונה - שורות צמודות ומורכזות בדיוק לפי image_4550c5.png */}
                     <div className="pdf-text-block tight-lines">
                         <p>משחק תושקתי, מסקרן, סקסי ושובב במיוחד .</p>
                         <p>אנחנו מול הגבולות וגילויי המיניות הזוגית שלנו.</p>
-                        <p>שחקו משחק קלפים כמו פוקר, ,21 יניב וכו'</p>
+                        <p>שחקו משחק קלפים כמו פוקר, ,21 יניב וכו' .</p>
                         <p>מי שמפסיד לוחץ על קלף וצריך לבצע את הכתוב .</p>
                         <p>תוכלו לשחק במשחק כפי שהוא, פשוט לחשוף</p>
                         <p>קלף כל אחד בתורו ולבצע. נשמע כיף לא ?!</p>
                     </div>
 
-                    {/* הפסקה השנייה המאוחדת בדיוק לפי המבנה שביקשת */}
+                    {/* פסקה שנייה - שורות צמודות ומורכזות בדיוק לפי הבקשה האחרונה */}
                     <div className="pdf-text-block pdf-gap tight-lines">
                         <p>תמצאו במשחק...</p>
                         <p>קלפי שאלות שיחשפו קצת juice.</p>
-                        <p>קלפי סקרנות יגלו לכם דרכים חדשות של עונג,</p>
-                        <p>מגע ושיח .</p>
-                        <p>קלפי תשוקה יתנו לכם רמז למשחק המקדים</p>
-                        <p>הסקסי שתכף יגיע .</p>
-                        <p>קלפי המשחק המקדים ישלחו אתכם לשחק אחד</p>
-                        <p>עם השניה הכי קרוב שיש.</p>
-                        <p>הקלפים הנועזים במיוחד יראו לכם שאין גבולות.</p>
+                        <p>קלפי סקרנות יגלו לכם דרכים חדשות של עונג, מגע ושיח .</p>
+                        <p>קלפי תשוקה יתנו לכם רמז למשחק המקדים הסקסי שתכף יגיע .</p>
+                        <p>קלפי המשחק המקדים ישלחו אתכם לשחק אחד עם השניה.</p>
+                        <p>הקלפים הנועזים במיוחד יראו לכם שאין גבולות .</p>
                     </div>
 
-                    {/* הפסקה האחרונה - חלוקת שורה מדויקת */}
+                    {/* פסקה אחרונה - מורכזת */}
                     <div className="pdf-text-block pdf-gap tight-lines">
                         <p>הכי חשוב שתהנו, שתפתחו את הראש ושתעפו</p>
                         <p>על עצמכם. ותגלו כמה גבולות נועדנו לפרוץ.</p>
                     </div>
                 </div>
 
-                <div className="instruction-card-footer">ייאלה סקסיים למיטה!</div>
+                <div className="instruction-card-footer centered-text">ייאלה סקסיים למיטה!</div>
             </div>
 
             <div className="instruction-button-container">
@@ -186,7 +183,7 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 4. Game Play - קלפים גלויים ותקינים */}
+      {/* 4. Game Play - תוקן: הגדרות הקלפים משוחזרות במלואן */}
       {viewState === 'game-play' && currentCard && (
         <div className="center-box">
           <div className="card-scene" onClick={handleCardClick}>
@@ -223,7 +220,7 @@ const MobileGamePage = () => {
         .hero-subline { font-size: 1.3rem; margin: 5px 0; opacity: 0.9; color: #fff; text-align: center; }
         .action-btn-neon { padding: 22px 60px; font-size: 1.6rem; margin-top: 40px; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
 
-        /* עיצוב הוראות - נעול ומותאם למבנה הפסקאות החדש */
+        /* עיצוב הוראות - מורכז ונעול */
         .instruction-master-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px; }
         .instruction-card-layout {
             width: 95%; max-width: 550px; max-height: 75vh;
@@ -233,12 +230,16 @@ const MobileGamePage = () => {
             box-shadow: 0 15px 50px rgba(0,0,0,0.6);
         }
         .instruction-card-title { color: #fff; text-align: center; font-size: 2.2rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; }
-        .instruction-pdf-content { color: #fff; text-align: right; }
-        .pdf-text-block { margin-bottom: 10px; }
+        .instruction-pdf-content { color: #fff; }
+        .centered-content { text-align: center !important; }
+        .centered-text { text-align: center !important; }
+
+        .pdf-text-block { margin-bottom: 10px; width: 100%; }
         .pdf-text-block p { margin: 0; line-height: 1.4; font-size: 1.1rem; }
         .tight-lines p { line-height: 1.35; }
         .pdf-gap { margin-top: 15px !important; }
-        .instruction-card-footer { text-align: center; margin-top: 15px; font-size: 1.6rem; font-weight: 800 !important; color: #fff; }
+        .instruction-card-footer { margin-top: 15px; font-size: 1.6rem; font-weight: 800 !important; color: #fff; width: 100%; }
+        
         .instruction-button-container { margin-top: 25px; width: 95%; max-width: 550px; display: flex; justify-content: center; }
         .action-btn-neon-large { width: 100%; padding: 20px; font-size: 1.4rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
 
@@ -268,7 +269,7 @@ const MobileGamePage = () => {
         .card-text { color: #fff; font-size: 1.5rem; font-weight: 800 !important; direction: rtl; display: block; width: 100%; }
         .reshuffle-btn { margin-top: 30px; padding: 15px 45px; font-size: 1.4rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
 
-        /* הגדרות קטגוריות - ללא שינוי */
+        /* הגדרות קטגוריות וכללי - ללא שינוי */
         .selection-panel { width: 95%; max-width: 520px; background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 25px; border: 1px solid #fff; direction: rtl; }
         .selection-layout { display: flex; gap: 25px; align-items: stretch; direction: ltr; height: 450px; }
         .thermo-section { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 105px; }
@@ -285,7 +286,6 @@ const MobileGamePage = () => {
         .cat-label { color: #fff; font-size: 1.1rem; }
         .start-btn-neon { width: 100%; padding: 18px; font-size: 1.4rem; background: #333; margin-top: 5px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; }
 
-        /* אנימציות */
         .deal-in { animation: dealIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .throw-out { animation: throwOut 0.5s ease-in forwards; }
         @keyframes dealIn { from { transform: scale(0) rotate(-15deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
