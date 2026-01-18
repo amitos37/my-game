@@ -104,14 +104,14 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 2. Instructions Screen - תצוגה מורכזת ומדויקת לפי כל התמונות וה-PDF */}
+      {/* 2. Instructions Screen - תצוגה מורכזת, ללא חפיפה וללא גלילה */}
       {viewState === 'instructions' && (
         <div className="instruction-master-container">
             <div className="instruction-card-layout fade-in">
                 <h2 className="instruction-card-title">הוראות המשחק</h2>
                 
                 <div className="instruction-pdf-content centered-content">
-                    {/* פסקה ראשונה - שורות צמודות ומורכזות בדיוק לפי image_4550c5.png */}
+                    {/* פסקה ראשונה - שחזור מדויק ומורכז */}
                     <div className="pdf-text-block tight-lines">
                         <p>משחק תושקתי, מסקרן, סקסי ושובב במיוחד .</p>
                         <p>אנחנו מול הגבולות וגילויי המיניות הזוגית שלנו.</p>
@@ -121,7 +121,7 @@ const MobileGamePage = () => {
                         <p>קלף כל אחד בתורו ולבצע. נשמע כיף לא ?!</p>
                     </div>
 
-                    {/* פסקה שנייה - שורות צמודות ומורכזות בדיוק לפי הבקשה האחרונה */}
+                    {/* פסקה שנייה - שחזור מדויק ומורכז */}
                     <div className="pdf-text-block pdf-gap tight-lines">
                         <p>תמצאו במשחק...</p>
                         <p>קלפי שאלות שיחשפו קצת juice.</p>
@@ -183,7 +183,7 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 4. Game Play - תוקן: הגדרות הקלפים משוחזרות במלואן */}
+      {/* 4. Game Play - קלפי המשחק תקינים */}
       {viewState === 'game-play' && currentCard && (
         <div className="center-box">
           <div className="card-scene" onClick={handleCardClick}>
@@ -205,7 +205,7 @@ const MobileGamePage = () => {
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; }
         
-        .game-wrapper { position: fixed; inset: 0; overflow: hidden; width: 100%; height: 100vh; }
+        .game-wrapper { position: fixed; inset: 0; width: 100%; height: 100vh; overflow: hidden; }
         .red-theme { background: #000; }
         .gray-theme { background: #050505; } 
         .fixed-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.7; }
@@ -220,44 +220,43 @@ const MobileGamePage = () => {
         .hero-subline { font-size: 1.3rem; margin: 5px 0; opacity: 0.9; color: #fff; text-align: center; }
         .action-btn-neon { padding: 22px 60px; font-size: 1.6rem; margin-top: 40px; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
 
-        /* עיצוב הוראות - מורכז ונעול */
-        .instruction-master-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px; }
+        /* עיצוב הוראות מורכז ומבודד למחשב ולנייד */
+        .instruction-master-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 10; }
         .instruction-card-layout {
-            width: 95%; max-width: 550px; max-height: 75vh;
+            width: 95%; max-width: 550px; 
+            max-height: 66vh; /* הגבלה מחמירה יותר כדי להשאיר מקום ללחצן במחשב */
             background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.25); border-radius: 30px;
-            padding: 30px 45px; direction: rtl; display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            padding: 20px 40px; direction: rtl; display: flex; flex-direction: column; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6); flex-shrink: 0;
         }
-        .instruction-card-title { color: #fff; text-align: center; font-size: 2.2rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; }
-        .instruction-pdf-content { color: #fff; }
+        .instruction-card-title { color: #fff; text-align: center; font-size: 2.1rem; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 8px; }
+        .instruction-pdf-content { color: #fff; width: 100%; text-align: center; overflow: hidden; }
         .centered-content { text-align: center !important; }
         .centered-text { text-align: center !important; }
 
-        .pdf-text-block { margin-bottom: 10px; width: 100%; }
-        .pdf-text-block p { margin: 0; line-height: 1.4; font-size: 1.1rem; }
-        .tight-lines p { line-height: 1.35; }
-        .pdf-gap { margin-top: 15px !important; }
-        .instruction-card-footer { margin-top: 15px; font-size: 1.6rem; font-weight: 800 !important; color: #fff; width: 100%; }
+        .pdf-text-block { margin-bottom: 8px; width: 100%; }
+        .pdf-text-block p { margin: 0; line-height: 1.35; font-size: 1.05rem; }
+        .tight-lines p { line-height: 1.25; }
+        .pdf-gap { margin-top: 12px !important; }
+        .instruction-card-footer { margin-top: 10px; font-size: 1.55rem; font-weight: 800 !important; color: #fff; width: 100%; text-align: center; }
         
-        .instruction-button-container { margin-top: 25px; width: 95%; max-width: 550px; display: flex; justify-content: center; }
-        .action-btn-neon-large { width: 100%; padding: 20px; font-size: 1.4rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
+        /* הלחצן עם מרווח קבוע - למניעת חפיפה */
+        .instruction-button-container { margin-top: 25px; width: 95%; max-width: 550px; display: flex; justify-content: center; flex-shrink: 0; position: relative; }
+        .action-btn-neon-large { width: 100%; padding: 18px; font-size: 1.4rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
 
         @media (max-width: 768px) {
-          .game-wrapper { height: 100dvh; }
-          .hero-main { font-size: 3.5rem; }
-          .instruction-master-container { padding-top: 45px; }
-          .instruction-card-layout { padding: 20px 25px; width: 95%; max-height: 72vh; }
-          .instruction-card-title { font-size: 1.7rem; margin-bottom: 12px; }
-          .pdf-text-block p { font-size: 0.88rem; line-height: 1.3; }
-          .tight-lines p { line-height: 1.25; }
+          .instruction-master-container { padding-top: 50px; }
+          .instruction-card-layout { padding: 18px 25px; width: 95%; max-height: 72vh; }
+          .instruction-card-title { font-size: 1.7rem; margin-bottom: 10px; }
+          .pdf-text-block p { font-size: 0.88rem; line-height: 1.25; }
           .pdf-gap { margin-top: 8px !important; }
           .instruction-card-footer { font-size: 1.25rem; margin-top: 10px; }
           .instruction-button-container { margin-top: 15px; }
           .action-btn-neon-large { padding: 12px; font-size: 1.1rem; }
         }
 
-        /* --- הגדרות קלפי המשחק --- */
+        /* --- קלפי המשחק --- */
         .card-scene { width: 300px; height: 420px; perspective: 1500px; cursor: pointer; }
         .active-card-wrapper { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
@@ -269,7 +268,7 @@ const MobileGamePage = () => {
         .card-text { color: #fff; font-size: 1.5rem; font-weight: 800 !important; direction: rtl; display: block; width: 100%; }
         .reshuffle-btn { margin-top: 30px; padding: 15px 45px; font-size: 1.4rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; transition: 0.3s; }
 
-        /* הגדרות קטגוריות וכללי - ללא שינוי */
+        /* הגדרות קטגוריות */
         .selection-panel { width: 95%; max-width: 520px; background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 25px; border: 1px solid #fff; direction: rtl; }
         .selection-layout { display: flex; gap: 25px; align-items: stretch; direction: ltr; height: 450px; }
         .thermo-section { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 105px; }
