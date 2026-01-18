@@ -48,7 +48,7 @@ const MobileGamePage = () => {
     }
   };
 
-  // לוגיקת המדחום
+  // לוגיקת המדחום והאפקטים
   const getThermoStyles = () => {
     const isAll = selectedCats.length === categories.length;
     const coldCat = categories.find(c => c.name === 'תוספת קרירה');
@@ -108,13 +108,13 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 2. Instructions Screen */}
+      {/* 2. Instructions Screen - זהות מוחלטת מחשב ומובייל */}
       {viewState === 'instructions' && (
-        <div className="state-view-container instructions-layout">
-            <div className="instr-card-box-global fade-in">
-                <h2 className="instr-header-global">הוראות המשחק</h2>
-                <div className="instr-content-global">
-                    <div className="instr-p-global tight-line">
+        <div className="state-view-container instructions-global-layout">
+            <div className="instr-card-exact fade-in">
+                <h2 className="instr-header-exact">הוראות המשחק</h2>
+                <div className="instr-body-exact">
+                    <div className="instr-p-exact tight">
                         <p>משחק תושקתי, מסקרן, סקסי ושובב במיוחד .</p>
                         <p>אנחנו מול הגבולות וגילויי המיניות הזוגית שלנו.</p>
                         <p>שחקו משחק קלפים כמו פוקר, ,21 יניב וכו' .</p>
@@ -122,28 +122,28 @@ const MobileGamePage = () => {
                         <p>תוכלו לשחק במשחק כפי שהוא, פשוט לחשוף</p>
                         <p>קלף כל אחד בתורו ולבצע. נשמע כיף לא ?!</p>
                     </div>
-                    <div className="instr-p-global gap-v centered"><p>תמצאו במשחק...</p></div>
-                    <div className="instr-p-global tight-line">
+                    <div className="instr-p-exact centered gap-v"><p>תמצאו במשחק...</p></div>
+                    <div className="instr-p-exact tight">
                         <p>קלפי שאלות שיחשפו קצת juice.</p>
                         <p>קלפי סקרנות יגלו לכם דרכים חדשות של עונג, מגע ושיח .</p>
                         <p>קלפי תשוקה יתנו לכם רמז למשחק המקדים הסקסי שתכף יגיע .</p>
                         <p>קלפי המשחק המקדים ישלחו אתכם לשחק אחד עם השניה.</p>
                         <p>הקלפים הנועזים במיוחד יראו לכם שאין גבולות .</p>
                     </div>
-                    <div className="instr-p-global gap-v tight-line">
+                    <div className="instr-p-exact tight gap-v">
                         <p>הכי חשוב שתהנו, שתפתחו את הראש ושתעפו</p>
                         <p>על עצמכם. ותגלו כמה גבולות נועדנו לפרוץ.</p>
                     </div>
                 </div>
-                <div className="instr-footer-global">ייאלה סקסיים למיטה!</div>
+                <div className="instr-footer-exact">ייאלה סקסיים למיטה!</div>
             </div>
-            <div className="instr-button-container-global">
-                <button className="instr-action-btn-global neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
+            <div className="instr-btn-outer-exact">
+                <button className="instr-btn-final neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
             </div>
         </div>
       )}
 
-      {/* 3. Category Selection - ללא גלילה במחשב ויישור מושלם */}
+      {/* 3. Category Selection */}
       {viewState === 'category-selection' && (
         <div className={`state-view-container selection-view ${thermo.type === 'ice' ? 'global-frost-active' : ''}`}>
           {thermo.type === 'ice' && (
@@ -216,6 +216,7 @@ const MobileGamePage = () => {
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; }
         
+        /* גלובלי - מניעת גלילת דפדפן */
         .game-wrapper { position: fixed; inset: 0; width: 100%; height: 100dvh; overflow: hidden; }
         .red-theme { background: #000; } .gray-theme { background: #050505; }
         .global-bg-layer { position: absolute; inset: 0; z-index: -1; opacity: 0.7; }
@@ -230,32 +231,31 @@ const MobileGamePage = () => {
         .hero-subtext-group p { font-size: 1.3rem; margin: 5px 0; opacity: 0.9; }
         .action-neon-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 18px 60px; font-size: 1.4rem; font-weight: 700; border-radius: 40px; cursor: pointer; transition: 0.3s; }
 
-        /* Instructions - ללא גלילה */
-        .instructions-layout { justify-content: center; gap: 2vh; }
-        .instr-card-box-global { 
-            width: 95%; max-width: 550px; 
-            max-height: 62dvh; 
-            background: rgba(15, 15, 15, 0.92); border: 1px solid rgba(255,255,255,0.25); 
-            border-radius: 30px; padding: 25px 40px; direction: rtl; display: flex; flex-direction: column; 
-            box-shadow: 0 15px 50px rgba(0,0,0,0.6); flex-shrink: 1; overflow: hidden;
-        }
-        .instr-header-global { color: #fff; text-align: center; font-size: clamp(1.8rem, 4vh, 2.1rem); margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 10px; flex-shrink: 0; }
-        .instr-content-global { color: #fff; text-align: center; overflow: hidden; width: 100%; flex-grow: 1; }
-        .instr-p-global.tight-line p { line-height: 1.35; margin: 0; font-size: clamp(0.9rem, 2vh, 1.05rem); }
-        .instr-p-global.gap-v { margin-top: 1.5vh !important; }
-        .instr-footer-global { font-size: clamp(1.4rem, 3.5vh, 1.6rem); font-weight: 800; color: #fff; text-align: center; flex-shrink: 0; padding-top: 10px; }
-        .instr-button-container-global { width: 100%; display: flex; justify-content: center; flex-shrink: 0; }
-        .instr-action-btn-global { padding: 16px 60px; font-size: 1.3rem; border-radius: 35px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; }
-
-        /* Category Selection - הסרת גלילה ויישור */
-        .cats-panel-box-global { 
+        /* --- Instructions - זהות מלאה מחשב/מובייל --- */
+        .instructions-global-layout { justify-content: center; gap: 4vh; overflow: hidden; }
+        .instr-card-exact { 
             width: 95%; max-width: 580px; 
-            background: rgba(15, 15, 15, 0.95); padding: 35px; 
-            border-radius: 25px; border: 1px solid #fff; 
-            direction: rtl; z-index: 10; 
-            display: flex; flex-direction: column;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            background: rgba(15, 15, 15, 0.92); border: 1px solid rgba(255,255,255,0.25); 
+            border-radius: 35px; padding: clamp(25px, 5vh, 45px); direction: rtl; 
+            display: flex; flex-direction: column; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7); 
+            flex-shrink: 0; overflow: hidden;
         }
+        .instr-header-exact { color: #fff; text-align: center; font-size: clamp(2rem, 4.5vh, 2.4rem); margin-bottom: 2vh; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1.5vh; flex-shrink: 0; }
+        .instr-body-exact { color: #fff; text-align: center; width: 100%; flex-grow: 1; }
+        .instr-p-exact.tight p { line-height: 1.4; margin: 0; font-size: clamp(1rem, 2vh, 1.15rem); }
+        .instr-p-exact.gap-v { margin-top: 2.5vh !important; }
+        .instr-footer-exact { font-size: clamp(1.5rem, 3.8vh, 1.8rem); font-weight: 800; color: #fff; text-align: center; padding-top: 2vh; flex-shrink: 0; }
+        .instr-btn-outer-exact { width: 100%; display: flex; justify-content: center; flex-shrink: 0; margin-top: 2vh; }
+        .instr-btn-final { padding: clamp(16px, 2.2vh, 22px) 60px; font-size: 1.4rem; border-radius: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; font-weight: 700; transition: 0.3s; }
+
+        @media (max-width: 768px) { 
+            .instr-card-exact { padding: 30px 25px; width: 95%; } 
+            .hero-main-title { font-size: 3.5rem; }
+        }
+
+        /* --- Category Selection Styles --- */
+        .cats-panel-box-global { width: 95%; max-width: 580px; background: rgba(15, 15, 15, 0.95); padding: 35px; border-radius: 25px; border: 1px solid #fff; direction: rtl; z-index: 10; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
         .cats-title-global { color: #fff; text-align: center; font-size: clamp(1.6rem, 3.5vh, 2.2rem); margin-bottom: 25px; flex-shrink: 0; }
         .cats-layout-grid-global { display: flex; gap: clamp(15px, 4vw, 40px); direction: ltr; align-items: stretch; }
         
@@ -277,22 +277,9 @@ const MobileGamePage = () => {
         .cat-row-global.active { background: #222; border: 1px solid rgba(255,255,255,0.3); }
         .custom-radio-global { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 50%; flex-shrink: 0; }
         .custom-radio-global.selected { background: #fff; }
-        .cat-label-txt { font-size: 1.15rem; }
-        
-        /* הסרת גלילה וסידור רשימה */
         .cat-static-list-no-scroll { display: flex; flex-direction: column; gap: 10px; }
-        
-        /* לחצן התחלה עם מרווח נקי */
         .start-btn-container-global { margin-top: 25px; width: 100%; flex-shrink: 0; }
         .start-btn-global { width: 100%; padding: clamp(15px, 2.2vh, 20px); border-radius: 35px; background: #333; border: 1px solid #fff; color: #fff; cursor: pointer; font-size: 1.35rem; font-weight: 700; transition: 0.3s; }
-
-        @media (max-width: 768px) {
-            .cats-panel-box-global { padding: 25px; width: 95%; max-height: 85dvh; }
-            .cats-layout-grid-global { gap: 15px; }
-            .cat-row-global { padding: 12px 18px; }
-            .cat-label-txt { font-size: 1rem; }
-            .start-btn-container-global { margin-top: 15px; }
-        }
 
         .global-frost-active { background: rgba(40, 40, 50, 0.7) !important; backdrop-filter: grayscale(0.8) blur(3px); }
         .global-snow-layer { position: absolute; inset: 0; pointer-events: none; z-index: 99; overflow: hidden; }
