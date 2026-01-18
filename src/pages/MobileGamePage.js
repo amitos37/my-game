@@ -20,7 +20,7 @@ const MobileGamePage = () => {
   const [isCardOpen, setIsCardOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
-  // טעינת נתונים ומיון קטגוריות
+  // טעינת נתונים
   useEffect(() => {
     const fetchData = async () => {
       const catSnap = await getDocs(collection(db, "categories"));
@@ -48,7 +48,6 @@ const MobileGamePage = () => {
     }
   };
 
-  // לוגיקת המדחום והאפקטים
   const getThermoStyles = () => {
     const isAll = selectedCats.length === categories.length;
     const coldCat = categories.find(c => c.name === 'תוספת קרירה');
@@ -108,13 +107,13 @@ const MobileGamePage = () => {
         </div>
       )}
 
-      {/* 2. Instructions Screen - זהות מוחלטת מחשב ומובייל */}
+      {/* 2. Instructions Screen - ללא גלילה, מתחת ללחצן וללא חיתוך */}
       {viewState === 'instructions' && (
-        <div className="state-view-container instructions-global-layout">
-            <div className="instr-card-exact fade-in">
-                <h2 className="instr-header-exact">הוראות המשחק</h2>
-                <div className="instr-body-exact">
-                    <div className="instr-p-exact tight">
+        <div className="state-view-container instructions-exact-layout">
+            <div className="instr-card-exact-v2 fade-in">
+                <h2 className="instr-header-v2">הוראות המשחק</h2>
+                <div className="instr-body-v2">
+                    <div className="instr-section tight-v">
                         <p>משחק תושקתי, מסקרן, סקסי ושובב במיוחד .</p>
                         <p>אנחנו מול הגבולות וגילויי המיניות הזוגית שלנו.</p>
                         <p>שחקו משחק קלפים כמו פוקר, ,21 יניב וכו' .</p>
@@ -122,23 +121,23 @@ const MobileGamePage = () => {
                         <p>תוכלו לשחק במשחק כפי שהוא, פשוט לחשוף</p>
                         <p>קלף כל אחד בתורו ולבצע. נשמע כיף לא ?!</p>
                     </div>
-                    <div className="instr-p-exact centered gap-v"><p>תמצאו במשחק...</p></div>
-                    <div className="instr-p-exact tight">
+                    <div className="instr-section centered gap-v2"><p>תמצאו במשחק...</p></div>
+                    <div className="instr-section tight-v">
                         <p>קלפי שאלות שיחשפו קצת juice.</p>
                         <p>קלפי סקרנות יגלו לכם דרכים חדשות של עונג, מגע ושיח .</p>
                         <p>קלפי תשוקה יתנו לכם רמז למשחק המקדים הסקסי שתכף יגיע .</p>
                         <p>קלפי המשחק המקדים ישלחו אתכם לשחק אחד עם השניה.</p>
                         <p>הקלפים הנועזים במיוחד יראו לכם שאין גבולות .</p>
                     </div>
-                    <div className="instr-p-exact tight gap-v">
+                    <div className="instr-section tight-v gap-v2">
                         <p>הכי חשוב שתהנו, שתפתחו את הראש ושתעפו</p>
                         <p>על עצמכם. ותגלו כמה גבולות נועדנו לפרוץ.</p>
                     </div>
                 </div>
-                <div className="instr-footer-exact">ייאלה סקסיים למיטה!</div>
+                <div className="instr-footer-v2">ייאלה סקסיים למיטה!</div>
             </div>
-            <div className="instr-btn-outer-exact">
-                <button className="instr-btn-final neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
+            <div className="instr-btn-container-v2">
+                <button className="instr-final-btn neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
             </div>
         </div>
       )}
@@ -216,49 +215,53 @@ const MobileGamePage = () => {
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap');
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; }
         
-        /* גלובלי - מניעת גלילת דפדפן */
         .game-wrapper { position: fixed; inset: 0; width: 100%; height: 100dvh; overflow: hidden; }
         .red-theme { background: #000; } .gray-theme { background: #050505; }
         .global-bg-layer { position: absolute; inset: 0; z-index: -1; opacity: 0.7; }
         .full-bg { width: 100%; height: 100%; object-fit: cover; }
-        .top-navigation { position: fixed; top: 20px; right: 20px; z-index: 100; }
+        .top-navigation { position: fixed; top: 20px; right: 20px; z-index: 1000; }
         .back-to-menu-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 8px 20px; border-radius: 30px; cursor: pointer; }
         .neon-white-hover:hover { box-shadow: 0 0 25px #fff !important; border-color: #fff !important; background: rgba(255,255,255,0.1) !important; }
         .state-view-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
 
         .hero-main-title { color: #fff; text-align: center; font-size: clamp(3rem, 10vh, 5.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 2vh; }
         .hero-subtext-group { text-align: center; color: #fff; margin-bottom: 4vh; }
-        .hero-subtext-group p { font-size: 1.3rem; margin: 5px 0; opacity: 0.9; }
         .action-neon-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 18px 60px; font-size: 1.4rem; font-weight: 700; border-radius: 40px; cursor: pointer; transition: 0.3s; }
 
-        /* --- Instructions - זהות מלאה מחשב/מובייל --- */
-        .instructions-global-layout { justify-content: center; gap: 4vh; overflow: hidden; }
-        .instr-card-exact { 
+        /* --- Instructions - No Scroll & Fixed Layout --- */
+        .instructions-exact-layout { 
+            justify-content: flex-start; 
+            padding-top: 90px; /* מבטיח שהקלף תמיד מתחת לכפתור "חזרה" */
+            height: 100dvh; 
+            gap: 2vh; 
+        }
+        .instr-card-exact-v2 { 
             width: 95%; max-width: 580px; 
             background: rgba(15, 15, 15, 0.92); border: 1px solid rgba(255,255,255,0.25); 
-            border-radius: 35px; padding: clamp(25px, 5vh, 45px); direction: rtl; 
+            border-radius: 35px; padding: clamp(20px, 3.5vh, 40px); direction: rtl; 
             display: flex; flex-direction: column; 
             box-shadow: 0 20px 60px rgba(0,0,0,0.7); 
-            flex-shrink: 0; overflow: hidden;
+            flex-shrink: 1; /* מתכווץ כדי להתאים למסך */
+            overflow: hidden;
         }
-        .instr-header-exact { color: #fff; text-align: center; font-size: clamp(2rem, 4.5vh, 2.4rem); margin-bottom: 2vh; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1.5vh; flex-shrink: 0; }
-        .instr-body-exact { color: #fff; text-align: center; width: 100%; flex-grow: 1; }
-        .instr-p-exact.tight p { line-height: 1.4; margin: 0; font-size: clamp(1rem, 2vh, 1.15rem); }
-        .instr-p-exact.gap-v { margin-top: 2.5vh !important; }
-        .instr-footer-exact { font-size: clamp(1.5rem, 3.8vh, 1.8rem); font-weight: 800; color: #fff; text-align: center; padding-top: 2vh; flex-shrink: 0; }
-        .instr-btn-outer-exact { width: 100%; display: flex; justify-content: center; flex-shrink: 0; margin-top: 2vh; }
-        .instr-btn-final { padding: clamp(16px, 2.2vh, 22px) 60px; font-size: 1.4rem; border-radius: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .instr-header-v2 { color: #fff; text-align: center; font-size: clamp(1.8rem, 3.8vh, 2.2rem); margin-bottom: 1.5vh; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1vh; flex-shrink: 0; }
+        .instr-body-v2 { color: #fff; text-align: center; width: 100%; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-around; }
+        .instr-section.tight-v p { line-height: 1.3; margin: 0; font-size: clamp(0.85rem, 1.7vh, 1.05rem); }
+        .instr-section.gap-v2 { margin-top: 1.2vh !important; }
+        .instr-footer-v2 { font-size: clamp(1.3rem, 3vh, 1.6rem); font-weight: 800; color: #fff; text-align: center; padding-top: 1vh; flex-shrink: 0; }
+        .instr-btn-container-v2 { width: 100%; display: flex; justify-content: center; flex-shrink: 0; padding-bottom: 15px; }
+        .instr-final-btn { padding: clamp(12px, 1.8vh, 18px) 60px; font-size: 1.3rem; border-radius: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.4); color: #fff; cursor: pointer; font-weight: 700; }
 
         @media (max-width: 768px) { 
-            .instr-card-exact { padding: 30px 25px; width: 95%; } 
-            .hero-main-title { font-size: 3.5rem; }
+            .instructions-exact-layout { padding-top: 80px; }
+            .instr-card-exact-v2 { padding: 25px 20px; width: 92%; } 
+            .instr-final-btn { padding: 12px 40px; font-size: 1.1rem; }
         }
 
         /* --- Category Selection Styles --- */
         .cats-panel-box-global { width: 95%; max-width: 580px; background: rgba(15, 15, 15, 0.95); padding: 35px; border-radius: 25px; border: 1px solid #fff; direction: rtl; z-index: 10; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
-        .cats-title-global { color: #fff; text-align: center; font-size: clamp(1.6rem, 3.5vh, 2.2rem); margin-bottom: 25px; flex-shrink: 0; }
+        .cats-title-global { color: #fff; text-align: center; font-size: clamp(1.6rem, 3.5vh, 2.2rem); margin-bottom: 25px; }
         .cats-layout-grid-global { display: flex; gap: clamp(15px, 4vw, 40px); direction: ltr; align-items: stretch; }
-        
         .thermo-v-widget-global { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
         .shaking-global { animation: globalVibe 0.1s infinite !important; }
         @keyframes globalVibe { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
@@ -271,7 +274,6 @@ const MobileGamePage = () => {
         .bead-indicators-global { display: flex; flex-direction: column; justify-content: space-between; height: 100%; z-index: 2; padding: 15px 0; }
         .bead-global { width: 15px; height: 15px; border-radius: 50%; background: #222; border: 1px solid rgba(255,255,255,0.1); }
         .bead-global.active { background: #fff; box-shadow: 0 0 10px #fff; }
-
         .cats-list-container-global { flex: 1; direction: rtl; display: flex; flex-direction: column; gap: 12px; }
         .cat-row-global { display: flex; align-items: center; gap: 15px; padding: 15px 22px; background: #1a1a1a; border-radius: 15px; cursor: pointer; color: #fff; transition: 0.3s; width: 100%; }
         .cat-row-global.active { background: #222; border: 1px solid rgba(255,255,255,0.3); }
