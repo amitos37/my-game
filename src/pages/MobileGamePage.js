@@ -87,30 +87,30 @@ const MobileGamePage = () => {
   };
 
   return (
-    <div className={`game-container-final ${isIceActive ? 'global-ice-effect' : ''} ${viewState === 'game-play' ? 'theme-play' : 'theme-red'}`}>
-      <div className="bg-layer-v15">{(viewState !== 'game-play') && <img src={`${publicUrl}/images/bg_red.png`} alt="" className="img-full" />}</div>
+    <div className={`app-wrapper-final ${isIceActive ? 'global-ice-mode' : ''} ${viewState === 'game-play' ? 'theme-game' : 'theme-red'}`}>
+      <div className="global-background">{(viewState !== 'game-play') && <img src={`${publicUrl}/images/bg_red.png`} alt="" className="full-img" />}</div>
       
-      {/* שלג רק במסך בחירה */}
+      {/* פתיתי שלג גלובליים */}
       {isIceActive && (
-          <div className="snow-wrap-v15">
-              {[...Array(20)].map((_, i) => <div key={i} className="snowflake-v15">❄</div>)}
+          <div className="snow-overlay-v20">
+              {[...Array(20)].map((_, i) => <div key={i} className="snowflake-v20">❄</div>)}
           </div>
       )}
 
-      {/* ניווט קבוע לצד ימין למעלה */}
-      <div className="nav-top-right">
-          <button className="btn-back-neon-v15 neon-white-hover" onClick={() => navigate('/main-menu')}>חזרה לתפריט</button>
+      {/* חזרה לתפריט - צד ימין למעלה */}
+      <div className="top-nav-area">
+          <button className="back-btn-neon neon-white-hover" onClick={() => navigate('/main-menu')}>חזרה לתפריט</button>
       </div>
 
-      <div className="main-content-v15">
+      <div className="content-container-v20">
         
         {/* 1. Welcome Screen */}
         {viewState === 'welcome' && (
           <div className="view-unit center-vh fade-in">
-              <h1 className="h1-v15">לחשוף,<br/>לציית,<br/>לגעת.</h1>
-              <div className="subs-v15"><p>משחק קלפים ללא גבולות</p><p>למבוגרים בלבד</p></div>
-              <div className="footer-action-v15">
-                <button className="btn-action-v15 neon-white-hover" onClick={() => setViewState('instructions')}>התקדמו להוראות המשחק</button>
+              <h1 className="hero-title-v20">לחשוף,<br/>לציית,<br/>לגעת.</h1>
+              <div className="hero-subs-v20"><p>משחק קלפים ללא גבולות</p><p>למבוגרים בלבד</p></div>
+              <div className="footer-action-v20">
+                <button className="btn-main-v20 neon-white-hover" onClick={() => setViewState('instructions')}>התקדמו להוראות המשחק</button>
               </div>
           </div>
         )}
@@ -118,28 +118,28 @@ const MobileGamePage = () => {
         {/* 2. Instructions Screen - ללא קלף למניעת חיתוך */}
         {viewState === 'instructions' && (
           <div className="view-unit top-anchored fade-in">
-            <div className="instr-content-v15">
-              <h2 className="header-v15">הוראות המשחק</h2>
-              <div className="body-v15">
+            <div className="instr-wrapper-v20">
+              <h2 className="instr-h2-v20">הוראות המשחק</h2>
+              <div className="instr-body-v20">
                 <p>משחק תושקתי, מסקרן, סקסי ושובב במיוחד .</p>
                 <p>אנחנו מול הגבולות וגילויי המיניות הזוגית שלנו.</p>
                 <p>שחקו משחק קלפים כמו פוקר, ,21 יניב וכו' .</p>
                 <p>מי שמפסיד לוחץ על קלף וצריך לבצע את הכתוב .</p>
                 <p>תוכלו לשחק במשחק כפי שהוא, פשוט לחשוף</p>
                 <p>קלף כל אחד בתורו ולבצע. נשמע כיף לא ?!</p>
-                <div className="divider-v15">תמצאו במשחק...</div>
+                <div className="instr-divider-v20">תמצאו במשחק...</div>
                 <p>קלפי שאלות שיחשפו קצת juice.</p>
                 <p>קלפי סקרנות יגלו לכם דרכים חדשות של עונג, מגע ושיח .</p>
                 <p>קלפי תשוקה יתנו לכם רמז למשחק המקדים הסקסי שתכף יגיע .</p>
                 <p>קלפי המשחק המקדים ישלחו אתכם לשחק אחד עם השניה.</p>
                 <p>הקלפים הנועזים במיוחד יראו לכם שאין גבולות .</p>
-                <p className="margin-top-v15">הכי חשוב שתהנו, שתפתחו את הראש ושתעפו</p>
+                <p className="extra-gap-v20">הכי חשוב שתהנו, שתפתחו את הראש ושתעפו</p>
                 <p>על עצמכם. ותגלו כמה גבולות נועדנו לפרוץ.</p>
-                <div className="footer-sexy-v15">ייאלה סקסיים למיטה!</div>
+                <div className="instr-footer-sexy-v20">ייאלה סקסיים למיטה!</div>
               </div>
             </div>
-            <div className="footer-action-v15">
-                <button className="btn-action-v15 neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
+            <div className="footer-action-v20">
+                <button className="btn-main-v20 neon-white-hover" onClick={() => setViewState('category-selection')}>המשיכו עוד קצת</button>
             </div>
           </div>
         )}
@@ -147,19 +147,19 @@ const MobileGamePage = () => {
         {/* 3. Category Selection */}
         {viewState === 'category-selection' && (
           <div className="view-unit top-anchored fade-in">
-            <div className="cats-card-v15">
-              <h2 className="header-v15">בחרו קטגוריות למשחק</h2>
-              <div className="cats-main-v15">
-                <div className={`thermo-v15 ${isIceActive ? 'shake-v15' : ''}`}>
-                  <div className="glass-v15"><div className={`mercury-v15 fill-${thermo.type}`} style={{ height: thermo.height }}></div></div>
-                  <div className="dots-v15">{categories.map(c => <div key={c.id} className={`dot-v15 ${selectedCats.includes(c.id) ? 'active' : ''}`}></div>)}</div>
+            <div className="cats-card-v20">
+              <h2 className="cats-h2-v20">בחרו קטגוריות למשחק</h2>
+              <div className="cats-grid-v20">
+                <div className={`thermo-v20 ${isIceActive ? 'shaking-v20' : ''}`}>
+                  <div className="glass-v20"><div className={`fill-v20 fill-${thermo.type}`} style={{ height: thermo.height }}></div></div>
+                  <div className="dots-v20">{categories.map(c => <div key={c.id} className={`dot-v20 ${selectedCats.includes(c.id) ? 'active' : ''}`}></div>)}</div>
                 </div>
-                <div className="list-v15">
-                  <div className="row-v15 all" onClick={toggleAll}><div className={`radio-v15 ${selectedCats.length === categories.length ? 'checked' : ''}`}></div><span>ביחרו הכל</span></div>
-                  <div className="stack-v15">
+                <div className="list-v20">
+                  <div className="row-v20 all-btn" onClick={toggleAll}><div className={`radio-v20 ${selectedCats.length === categories.length ? 'on' : ''}`}></div><span>ביחרו הכל</span></div>
+                  <div className="stack-v20">
                     {categories.map(cat => (
-                      <div key={cat.id} className={`row-v15 ${selectedCats.includes(cat.id) ? 'active' : ''} ${cat.name === 'תוספת קרירה' && selectedCats.includes(cat.id) && !wasAllSelectedByButton ? 'ice-row-glow' : ''}`} onClick={() => toggleCategory(cat.id)}>
-                        <div className={`radio-v15 ${selectedCats.includes(cat.id) ? 'checked' : ''}`}></div>
+                      <div key={cat.id} className={`row-v20 ${selectedCats.includes(cat.id) ? 'active' : ''} ${cat.name === 'תוספת קרירה' && selectedCats.includes(cat.id) && !wasAllSelectedByButton ? 'ice-row' : ''}`} onClick={() => toggleCategory(cat.id)}>
+                        <div className={`radio-v20 ${selectedCats.includes(cat.id) ? 'on' : ''} ${cat.name === 'תוספת קרירה' && selectedCats.includes(cat.id) && !wasAllSelectedByButton ? 'ice-dot' : ''}`}></div>
                         <span>{cat.name}</span>
                       </div>
                     ))}
@@ -168,8 +168,8 @@ const MobileGamePage = () => {
               </div>
             </div>
             {selectedCats.length > 0 && (
-                <div className="footer-action-v15">
-                    <button className="btn-action-v15 neon-white-hover" onClick={handleStartGame}>התחילו במשחק</button>
+                <div className="footer-action-v20">
+                    <button className="btn-main-v20 neon-white-hover" onClick={handleStartGame}>התחילו במשחק</button>
                 </div>
             )}
           </div>
@@ -178,19 +178,19 @@ const MobileGamePage = () => {
         {/* 4. Game Play */}
         {viewState === 'game-play' && currentCard && (
           <div className="view-unit center-vh fade-in">
-            <div className="play-scene-v15" onClick={handleCardClick}>
-              <div key={currentCard.text} className={`card-wrap-v15 ${isExiting ? 'exit' : 'enter'}`}>
-                <div className={`inner-v15 ${isCardOpen ? 'flipped' : ''}`}>
-                  <div className="face front-v15"><img src={currentCard.backImage} alt="" className="img-full" /></div>
-                  <div className="face back-v15">
+            <div className="play-scene-v20" onClick={handleCardClick}>
+              <div key={currentCard.text} className={`card-wrap-v20 ${isExiting ? 'exit' : 'enter'}`}>
+                <div className={`card-inner-v20 ${isCardOpen ? 'flipped' : ''}`}>
+                  <div className="face front-v20"><img src={currentCard.backImage} alt="" className="img-full" /></div>
+                  <div className="face back-v20">
                     {currentCard.image && <img src={currentCard.image} alt="" className="img-full" />}
-                    <div className="card-text-v15"><span>{currentCard.text}</span></div>
+                    <div className="text-overlay-v20"><span>{currentCard.text}</span></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="footer-action-v15">
-              <button className="btn-action-v15 neon-white-hover" onClick={() => setViewState('category-selection')}>חיזרו לבחירה</button>
+            <div className="footer-action-v20">
+              <button className="btn-main-v20 neon-white-hover" onClick={() => setViewState('category-selection')}>חיזרו לבחירה</button>
             </div>
           </div>
         )}
@@ -202,85 +202,92 @@ const MobileGamePage = () => {
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif !important; margin: 0; padding: 0; }
         
         /* --- Root --- */
-        .game-container-final { position: fixed; inset: 0; width: 100%; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; background: #000; transition: 0.8s; }
-        .theme-red { background: #000; } .theme-play { background: #050505; }
+        .app-wrapper-final { position: fixed; inset: 0; width: 100%; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; background: #000; transition: 0.8s; }
+        .theme-red { background: #000; } .theme-game { background: #050505; }
         
         /* Global Ice Effect */
-        .global-ice-effect { filter: grayscale(0.9) brightness(0.85); background: #1a1a1a !important; }
-        .bg-layer-v15 { position: absolute; inset: 0; z-index: -1; opacity: 0.7; pointer-events: none; }
-        .img-full { width: 100%; height: 100%; object-fit: cover; }
+        .global-ice-mode { filter: grayscale(0.9) brightness(0.8); background: #1a1a1a !important; }
+        .global-background { position: absolute; inset: 0; z-index: -1; opacity: 0.7; pointer-events: none; }
+        .full-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Navigation - Top Right */
-        .nav-top-right { height: 80px; display: flex; justify-content: flex-end; align-items: center; padding: 0 25px; flex-shrink: 0; z-index: 2000; }
-        .btn-back-neon-v15 { background: rgba(0,0,0,0.6); border: 1.2px solid rgba(255,255,255,0.4); color: #fff; padding: 10px 22px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        /* Top Navigation */
+        .top-nav-area { height: 80px; display: flex; justify-content: flex-end; align-items: center; padding: 0 25px; flex-shrink: 0; z-index: 2000; }
+        .back-btn-neon { background: rgba(0,0,0,0.6); border: 1.5px solid rgba(255,255,255,0.4); color: #fff; padding: 10px 22px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
         
-        /* Neon White Effect */
+        /* Neon Effect */
         .neon-white-hover:hover { box-shadow: 0 0 25px #fff !important; border-color: #fff !important; background: rgba(255,255,255,0.15) !important; color: #fff !important; }
 
-        .main-content-v15 { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .content-container-v20 { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
         .view-unit { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; padding: 10px 20px; }
         .center-vh { justify-content: center; }
-        .top-anchored { justify-content: flex-start; padding-top: 10px; }
+        .top-anchored { justify-content: flex-start; padding-top: 5px; }
 
-        /* Buttons outside content */
-        .footer-action-v15 { margin-top: auto; width: 100%; display: flex; justify-content: center; flex-shrink: 0; padding-bottom: 25px; }
-        .btn-action-v15 { background: rgba(255,255,255,0.05); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); padding: clamp(14px, 2.2vh, 18px) 60px; font-size: 1.35rem; font-weight: 700; border-radius: 40px; cursor: pointer; transition: 0.3s; }
+        /* Action Buttons */
+        .footer-action-v20 { margin-top: auto; width: 100%; display: flex; justify-content: center; flex-shrink: 0; padding-bottom: 30px; }
+        .btn-main-v20 { background: rgba(255,255,255,0.05); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); padding: clamp(14px, 2vh, 20px) 60px; font-size: 1.35rem; font-weight: 700; border-radius: 40px; cursor: pointer; transition: 0.3s; }
 
-        /* Instructions Fix - Flexible */
-        .instr-content-v15 { width: 95%; max-width: 600px; direction: rtl; text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; overflow-y: auto; padding: 10px 0; }
-        .header-v15 { font-size: clamp(1.8rem, 4vh, 2.4rem); margin-bottom: 20px; font-weight: 800; border-bottom: 1.5px solid rgba(255,255,255,0.1); display: inline-block; width: 100%; padding-bottom: 10px; }
-        .body-v15 p { font-size: clamp(0.95rem, 1.9vh, 1.2rem); line-height: 1.5; margin: 4px 0; white-space: normal; }
-        .divider-v15 { margin: 15px 0; font-weight: 800; font-size: 1.2rem; }
-        .footer-sexy-v15 { font-size: clamp(1.4rem, 3.5vh, 2rem); font-weight: 800; margin-top: 20px; }
-        .margin-top-v15 { margin-top: 15px !important; }
+        /* Instructions - No Box Fix */
+        .instr-wrapper-v20 { width: 95%; max-width: 600px; direction: rtl; text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .instr-h2-v20 { font-size: clamp(2rem, 4.5vh, 2.6rem); margin-bottom: 20px; font-weight: 800; }
+        .instr-body-v20 p { font-size: clamp(1rem, 1.95vh, 1.3rem); line-height: 1.5; margin: 4px 0; white-space: normal; }
+        .instr-divider-v20 { margin: 15px 0; font-weight: 800; font-size: 1.3rem; }
+        .instr-footer-sexy-v20 { font-size: clamp(1.6rem, 3.8vh, 2.2rem); font-weight: 800; margin-top: 25px; }
+        .extra-gap-v20 { margin-top: 15px !important; }
 
-        /* Welcome */
-        .h1-v15 { color: #fff; text-align: center; font-size: clamp(3.2rem, 12vh, 5.5rem); font-weight: 800; line-height: 1; margin-bottom: 20px; }
-        .subs-v15 { text-align: center; color: #fff; }
-        .subs-v15 p { font-size: 1.3rem; opacity: 0.85; margin: 8px 0; }
-
-        /* Category Card - Stability */
-        .cats-card-v15 { width: 95%; max-width: 580px; background: rgba(15, 15, 15, 0.95); border: 1.2px solid #fff; border-radius: 25px; padding: 25px; direction: rtl; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.6); max-height: 60dvh; flex-shrink: 1; }
-        .cats-main-v15 { display: flex; gap: 30px; direction: ltr; flex-grow: 1; overflow: hidden; }
-        .thermo-v15 { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-        .glass-v15 { width: 18px; background: rgba(255,255,255,0.1); position: absolute; top: 5px; bottom: 5px; border-radius: 15px; border: 2.2px solid rgba(255,255,255,0.3); overflow: hidden; }
-        .mercury-v15 { position: absolute; bottom: 0; width: 100%; transition: 0.8s ease-in-out; }
+        /* Category Selection */
+        .cats-card-v20 { width: 95%; max-width: 580px; background: rgba(15, 15, 15, 0.95); border: 1.5px solid #fff; border-radius: 25px; padding: 25px; direction: rtl; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.6); max-height: 60dvh; flex-shrink: 1; }
+        .cats-h2-v20 { color: #fff; text-align: center; font-size: clamp(1.6rem, 3.2vh, 2.2rem); margin-bottom: 20px; }
+        .cats-grid-v20 { display: flex; gap: 30px; direction: ltr; flex-grow: 1; overflow: hidden; }
+        
+        .thermo-v20 { width: 45px; position: relative; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+        .glass-v20 { width: 18px; background: rgba(255,255,255,0.1); position: absolute; top: 5px; bottom: 5px; border-radius: 15px; border: 2.2px solid rgba(255,255,255,0.3); overflow: hidden; }
+        .fill-v20 { position: absolute; bottom: 0; width: 100%; transition: 0.8s ease-in-out; }
         .fill-red { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
         .fill-blue { background: #007bff; box-shadow: 0 0 15px #007bff; }
         .fill-ice { background: #fff !important; box-shadow: 0 0 25px #fff; }
         .fill-full { background: linear-gradient(to top, #007bff, #fff, #ff0000); }
-        .dots-v15 { display: flex; flex-direction: column; justify-content: space-between; height: 100%; z-index: 2; padding: 12px 0; }
-        .dot-v15 { width: 14px; height: 14px; border-radius: 50%; background: #222; border: 1.2px solid rgba(255,255,255,0.2); }
-        .dot-v15.active { background: #fff; box-shadow: 0 0 8px #fff; }
-        .list-v15 { flex: 1; direction: rtl; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
-        .row-v15 { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: #1a1a1a; border-radius: 12px; cursor: pointer; color: #fff; transition: 0.2s; flex-shrink: 0; }
-        .row-v15.active { background: #222; border: 1px solid rgba(255,255,255,0.3); }
-        .radio-v15 { width: 18px; height: 18px; border: 2.5px solid #fff; border-radius: 50%; }
-        .radio-v15.checked { background: #fff; }
-        .stack-v15 { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-        .ice-row-glow { background: rgba(224, 242, 254, 0.4) !important; border: 1.2px solid #fff; box-shadow: 0 0 15px #fff; }
-        .shake-v15 { animation: shakeV15 0.1s infinite; }
-        @keyframes shakeV15 { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
+        .dots-v20 { display: flex; flex-direction: column; justify-content: space-between; height: 100%; z-index: 2; padding: 12px 0; }
+        .dot-v20 { width: 14px; height: 14px; border-radius: 50%; background: #222; border: 1.5px solid rgba(255,255,255,0.2); }
+        .dot-v20.active { background: #fff; box-shadow: 0 0 8px #fff; }
 
-        /* Snow Effects */
-        .snow-wrap-v15 { position: absolute; inset: 0; pointer-events: none; z-index: 1000; overflow: hidden; }
-        .snowflake-v15 { position: absolute; color: #fff; top: -30px; animation: snowFallStatic 5s linear infinite; opacity: 0.8; font-size: 20px; }
+        .list-v20 { flex: 1; direction: rtl; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+        .row-v20 { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: #1a1a1a; border-radius: 12px; cursor: pointer; color: #fff; transition: 0.2s; flex-shrink: 0; }
+        .row-v20.active { background: #222; border: 1px solid rgba(255,255,255,0.3); }
+        .radio-v20 { width: 18px; height: 18px; border: 2.5px solid #fff; border-radius: 50%; }
+        .radio-v20.on { background: #fff; }
+        .stack-v20 { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .ice-row { background: rgba(224, 242, 254, 0.4) !important; border: 1.5px solid #fff; box-shadow: 0 0 15px #fff; }
+        .shaking-v20 { animation: shakeV20 0.1s infinite; }
+        @keyframes shakeV20 { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
+
+        /* Snow */
+        .snow-overlay-v20 { position: absolute; inset: 0; pointer-events: none; z-index: 1000; overflow: hidden; }
+        .snowflake-v20 { position: absolute; color: #fff; top: -30px; animation: snowFallStatic 5s linear infinite; opacity: 0.8; font-size: 20px; }
         @keyframes snowFallStatic { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(110dvh) rotate(360deg); } }
+        .snowflake-v20:nth-child(4n) { left: 15%; animation-delay: 0s; }
+        .snowflake-v20:nth-child(4n+1) { left: 40%; animation-delay: 1.5s; }
+        .snowflake-v20:nth-child(4n+2) { left: 65%; animation-delay: 3s; }
+        .snowflake-v20:nth-child(4n+3) { left: 85%; animation-delay: 0.8s; }
+
+        /* Welcome */
+        .hero-title-v20 { color: #fff; text-align: center; font-size: clamp(3.2rem, 12vh, 5.5rem); font-weight: 800; line-height: 1; margin-bottom: 20px; }
+        .hero-subs-v20 { text-align: center; color: #fff; }
+        .hero-subs-v20 p { font-size: 1.35rem; opacity: 0.85; margin: 8px 0; }
 
         /* Gameplay */
-        .play-scene-v15 { width: 280px; height: 390px; perspective: 1200px; cursor: pointer; position: relative; }
-        .card-wrap-v15 { width: 100%; height: 100%; transform-style: preserve-3d; }
-        .inner-v15 { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        .inner-v15.flipped { transform: rotateY(180deg); }
+        .play-scene-v20 { width: 280px; height: 390px; perspective: 1200px; cursor: pointer; position: relative; }
+        .card-wrap-v20 { width: 100%; height: 100%; transform-style: preserve-3d; }
+        .card-inner-v20 { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .card-inner-v20.flipped { transform: rotateY(180deg); }
         .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; overflow: hidden; background: #111; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .face.back-v15 { transform: rotateY(180deg); }
-        .card-text-v15 { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; text-align: center; }
-        .card-text-v15 span { color: #fff; font-size: 1.5rem; font-weight: 800; direction: rtl; display: block; }
+        .face.back-v20 { transform: rotateY(180deg); }
+        .text-overlay-v20 { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; text-align: center; }
+        .text-overlay-v20 span { color: #fff; font-size: 1.5rem; font-weight: 800; direction: rtl; display: block; }
         
-        .enter { animation: cardInFinal 0.6s forwards; }
-        .exit { animation: cardOutFinal 0.5s ease-in forwards; }
-        @keyframes cardInFinal { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes cardOutFinal { to { transform: translateX(120vw) rotate(30deg) scale(0.8); opacity: 0; } }
+        .enter { animation: cInFinal 0.6s forwards; }
+        .exit { animation: cOutFinal 0.5s ease-in forwards; }
+        @keyframes cInFinal { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes cOutFinal { to { transform: translateX(120vw) rotate(30deg) scale(0.8); opacity: 0; } }
         .fade-in { animation: fmain 0.5s ease; } @keyframes fmain { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
     </div>
